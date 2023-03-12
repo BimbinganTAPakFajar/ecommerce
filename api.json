@@ -1,0 +1,65 @@
+{
+  "products":[
+    {
+      "id": 1,
+      "name": "Beras",
+      "price": 1000,
+      "sold": 184,
+      "image": "/products/rice.png"
+    },
+    {
+      "id": 2,
+      "name": "Wortel",
+      "price": 1000,
+      "sold": 44,
+      "image": "/products/carrot.png"
+    },
+    {
+      "id": 3,
+      "name": "Kentang",
+      "price": 1000,
+      "sold": 80,
+      "image": "/products/potato.png"
+    },
+    {
+      "id": 4,
+      "name": "Bayam",
+      "price": 1000,
+      "sold": 91,
+      "image": "/products/spinach.png"
+    },
+    {
+      "id": 5,
+      "name": "Tomat",
+      "price": 1000,
+      "sold": 52,
+      "image": "/products/tomato.png"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Kentang",
+      "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "image": "/products/potato.png"
+    },
+    {
+      "id": 1,
+      "name": "Tomat",
+      "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "image": "/products/tomato.png"
+    },
+    {
+      "id": 1,
+      "name": "Beras",
+      "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "image": "/products/rice.png"
+    },
+    {
+      "id": 1,
+      "name": "Carrot",
+      "desc": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "image": "/products/carrot.png"
+    }
+  ]
+}
