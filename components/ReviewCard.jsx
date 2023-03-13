@@ -6,10 +6,8 @@ export default function ReviewCard(p) {
       </div>
       <div>
         <h2 className="text-sm">{p.name}</h2>
-        <p className="text-sm">
-          {p.desc}
-        </p>
+        <p className="text-sm">{p.desc}</p>
       </div>
     </div>
-  )
+  );
 }
