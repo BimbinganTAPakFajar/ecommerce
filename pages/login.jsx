@@ -7,11 +7,11 @@ import { useState } from "react";
 export default function Login() {
   const [title, setTitle] = useState("Login");
   const bottomText =
-    title === "Login" ? "Belum punya akun?" : "Sudah punya akun?";
+    title === "Login" ? "Belum punya akun? " : "Sudah punya akun? ";
   const bottomLink = title === "Login" ? "Register" : "Login";
   const generateBottomText = () => {
     return (
-      <>
+      <div className="text-center">
         <span>{bottomText}</span>
         <button
           onClick={() => setTitle(bottomLink)}
@@ -19,7 +19,7 @@ export default function Login() {
         >
           {bottomLink}
         </button>
-      </>
+      </div>
     );
   };
   return (
