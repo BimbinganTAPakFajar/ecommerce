@@ -5,7 +5,7 @@ import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
 export async function getServerSideProps() {
   const res = await axios.get(
-    `${process.env.STRAPI_URL}product-details?populate=*`
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}product-details?populate=*`
   );
 
   const products = await res.data.data;

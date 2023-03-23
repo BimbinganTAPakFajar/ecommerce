@@ -19,16 +19,19 @@ export const authOptions = {
         const { username, password } = credentials;
 
         try {
-          const res = await axios(`${process.env.STRAPI_URL}auth/local`, {
-            method: "POST",
-            data: {
-              identifier: username,
-              password: password,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const res = await axios(
+            `${process.env.NEXT_PUBLIC_STRAPI_URL}auth/local`,
+            {
+              method: "POST",
+              data: {
+                identifier: username,
+                password: password,
+              },
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
           const user = res.data;
           if (user) {
             return res;

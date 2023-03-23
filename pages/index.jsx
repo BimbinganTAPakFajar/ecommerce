@@ -7,8 +7,10 @@ import ReviewCard from "@/components/ReviewCard";
 import Image from "next/image";
 export async function getServerSideProps(context) {
   const [productsres, landingres] = await Promise.all([
-    axios.get(`${process.env.STRAPI_URL}product-details?populate=*`),
-    axios.get(`${process.env.STRAPI_URL}landing-page?populate=*`),
+    axios.get(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}product-details?populate=*`
+    ),
+    axios.get(`${process.env.NEXT_PUBLIC_STRAPI_URL}landing-page?populate=*`),
   ]);
   const products = productsres.data.data;
   const landing = landingres.data.data;

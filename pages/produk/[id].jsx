@@ -4,7 +4,9 @@ import Image from "next/image";
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const [productres] = await Promise.all([
-    axios.get(`${process.env.STRAPI_URL}product-details/${id}?populate=*`),
+    axios.get(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}product-details/${id}?populate=*`
+    ),
   ]);
   const product = productres.data.data;
 
