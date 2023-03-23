@@ -7,8 +7,8 @@ export default function LoginForm() {
     try {
       e.preventDefault();
       const result = await signIn("credentials", {
-        username: "mel@mel.com",
-        password: "password",
+        username: email,
+        password: password,
         redirect: true,
         callbackUrl: "/",
       });

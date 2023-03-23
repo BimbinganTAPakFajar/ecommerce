@@ -17,27 +17,21 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const { username, password } = credentials;
-        console.log(
-          "-----------------------------------------HELOO-----------------------------------------"
-        );
         try {
-          const res = await fetch("http://127.0.0.1:1337/api/auth/local", {
+          const res = await fetch(`${process.env.STRAPI_URL}auth/local`, {
             method: "POST",
             body: JSON.stringify({
-              identifier: "mel@mel.com",
-              password: "password",
+              identifier: username,
+              password: password,
             }),
             headers: {
               "Content-Type": "application/json",
             },
           });
           const user = await res.json();
-          console.log(user, "user");
-          console.log("user", user);
           if (user) {
             return res;
           } else {
-            console.log("bye");
             return null;
           }
         } catch (error) {
