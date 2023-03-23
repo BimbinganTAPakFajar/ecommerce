@@ -4,8 +4,11 @@ import axios from "axios";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
 export async function getStaticProps() {
-  const res = await axios.get("http://localhost:8080/products");
-  const products = await res.data;
+  const res = await axios.get(
+    `${process.env.STRAPI_URL}product-details?populate=*`
+  );
+
+  const products = await res.data.data;
   return {
     props: {
       products,
@@ -14,23 +17,57 @@ export async function getStaticProps() {
 }
 const Product = ({ products }) => {
   const [search, setSearch] = useState("");
+
   const filteredProducts = search
-    ? products.filter((p) => {
-        return p.name.toLowerCase().includes(search.toLowerCase());
-      })
+    ? products.filter(
+        ({
+          id,
+          attributes: {
+            name,
+            image: {
+              data: [
+                {
+                  attributes: { url },
+                },
+              ],
+            },
+            sold,
+          },
+        }) => {
+          return name.toLowerCase().includes(search.toLowerCase());
+        }
+      )
     : products;
 
   const renderProducts = () => {
-    return filteredProducts.map((p) => {
-      return (
-        <ProductCard
-          key={p.name}
-          src={p.image}
-          name={p.name}
-          amount={p.sold}
-        ></ProductCard>
-      );
-    });
+    return filteredProducts.map(
+      ({
+        id,
+        attributes: {
+          name,
+          image: {
+            data: [
+              {
+                attributes: { url },
+              },
+            ],
+          },
+          sold,
+          slug,
+        },
+      }) => {
+        return (
+          <ProductCard
+            id={id}
+            key={name}
+            src={url}
+            name={name}
+            amount={sold}
+            slug={slug}
+          ></ProductCard>
+        );
+      }
+    );
   };
   return (
     <div className="w-full">
@@ -42,11 +79,11 @@ const Product = ({ products }) => {
             console.log(search);
           }, 500)
         }
-        className="border-2"
+        className="border-2 rounded-md p-1"
         placeholder="Temukan produk kami..."
         type="text"
       />
-      {renderProducts()}
+      <div className="w-full flex flex-wrap gap-4 pt-5">{renderProducts()}</div>
     </div>
   );
 };

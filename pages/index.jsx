@@ -49,6 +49,7 @@ export default function Home({ products, landing }) {
             ],
           },
           sold,
+          slug,
         },
       }) => {
         return (
@@ -58,6 +59,7 @@ export default function Home({ products, landing }) {
             src={url}
             name={name}
             amount={sold}
+            slug={slug}
           ></ProductCard>
         );
       }
