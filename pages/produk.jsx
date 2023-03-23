@@ -23,7 +23,12 @@ const Product = ({ products }) => {
   const renderProducts = () => {
     return filteredProducts.map((p) => {
       return (
-        <ProductCard src={p.image} name={p.name} amount={p.sold}></ProductCard>
+        <ProductCard
+          key={p.name}
+          src={p.image}
+          name={p.name}
+          amount={p.sold}
+        ></ProductCard>
       );
     });
   };

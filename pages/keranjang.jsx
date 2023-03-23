@@ -72,6 +72,7 @@ export default function Keranjang() {
     return cart.map((item) => {
       return (
         <CartItem
+          key={item.name}
           id={item.id}
           name={item.name}
           src={item.src}

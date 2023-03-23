@@ -46,7 +46,12 @@ export default function Home({ products, reviews }) {
   const renderProducts = () => {
     return products.map((p) => {
       return (
-        <ProductCard src={p.image} name={p.name} amount={p.sold}></ProductCard>
+        <ProductCard
+          key={p.name}
+          src={p.image}
+          name={p.name}
+          amount={p.sold}
+        ></ProductCard>
       );
     });
   };
@@ -54,7 +59,12 @@ export default function Home({ products, reviews }) {
   const renderReviews = () => {
     return reviews.map((p) => {
       return (
-        <ReviewCard src={p.image} name={p.name} desc={p.desc}></ReviewCard>
+        <ReviewCard
+          key={p.name}
+          src={p.image}
+          name={p.name}
+          desc={p.desc}
+        ></ReviewCard>
       );
     });
   };
