@@ -18,7 +18,7 @@ export const authOptions = {
       async authorize(credentials, req) {
         const { username, password } = credentials;
         try {
-          const res = await fetch(`${process.env.STRAPI_URL}auth/local`, {
+          const res = await axios(`${process.env.STRAPI_URL}auth/local`, {
             method: "POST",
             body: JSON.stringify({
               identifier: username,
@@ -28,7 +28,7 @@ export const authOptions = {
               "Content-Type": "application/json",
             },
           });
-          const user = await res.json();
+          const user = res.data;
           if (user) {
             return res;
           } else {

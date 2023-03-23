@@ -1,21 +1,38 @@
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { useRef } from "react";
 export default function LoginForm() {
+  const router = useRouter();
   const email = useRef("");
   const password = useRef("");
+  const [error, setError] = useState();
+  console.log(error);
   const onSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      const result = await signIn("credentials", {
-        username: email,
-        password: password,
-        redirect: true,
-        callbackUrl: "/",
-      });
-    } catch (error) {
-      console.log(error);
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      username: email,
+      password: password,
+      redirect: false,
+      callbackUrl: "/",
+    });
+    if (result.ok) {
+      router.push("/");
+    } else {
+      console.log(result);
+      setError(result.error);
     }
   };
+  if (error)
+    return (
+      <div
+        className="bg-red-100 border border-red-400 text-red-700 px-4 py-10 rounded relative"
+        role="alert"
+      >
+        <strong className="font-bold">Error!</strong>
+        <span className="block sm:inline">{error}</span>
+      </div>
+    );
   return (
     <form action="" method="post" className="flex flex-col gap-y-2">
       <div className="flex flex-col gap-y-1">
