@@ -3,7 +3,7 @@ import NavigationBar from "@/components/NavigationBar";
 import axios from "axios";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await axios.get(
     `${process.env.STRAPI_URL}product-details?populate=*`
   );
