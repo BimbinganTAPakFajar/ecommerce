@@ -7,19 +7,17 @@ export default function LoginForm() {
   const email = useRef("");
   const password = useRef("");
   const [error, setError] = useState();
-  console.log(error);
   const onSubmit = async (e) => {
     e.preventDefault();
     const result = await signIn("credentials", {
-      username: email,
-      password: password,
+      username: email.current,
+      password: password.current,
       redirect: false,
       callbackUrl: "/",
     });
     if (result.ok) {
       router.push("/");
     } else {
-      console.log(result);
       setError(result.error);
     }
   };

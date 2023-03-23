@@ -87,7 +87,6 @@ export default function Home({ products, landing }) {
         </div>
         <div className="flex justify-center items-center">
           <Image
-            clas
             width={500}
             height={500}
             className="rounded-md"

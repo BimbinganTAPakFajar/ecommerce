@@ -17,13 +17,14 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const { username, password } = credentials;
+
         try {
           const res = await axios(`${process.env.STRAPI_URL}auth/local`, {
             method: "POST",
-            body: JSON.stringify({
+            data: {
               identifier: username,
               password: password,
-            }),
+            },
             headers: {
               "Content-Type": "application/json",
             },
@@ -54,5 +55,6 @@ export const authOptions = {
   pages: {
     signIn: "/login",
   },
+  secret: process.env.SECRET,
 };
 export default NextAuth(authOptions);
