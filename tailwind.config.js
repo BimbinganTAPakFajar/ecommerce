@@ -1,24 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
+  content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        "main" : "#FFFFFF",
-        "big" : "#056835",
-        "small" : "#6B6978",
-        "hover": "#AB6729",
-        "bg": "#e6f0eb"
-
-      }
+        main: "#FFFFFF",
+        big: "#056835",
+        small: "#6B6978",
+        hover: "#AB6729",
+        bg: "#e6f0eb",
+      },
     },
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/typography")],
+};

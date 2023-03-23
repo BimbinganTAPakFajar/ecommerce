@@ -55,7 +55,7 @@ export default function NavigationBar() {
       <ul className="h-10 flex gap-x-10 items-center font-bold ">
         {renderList()}
         <Link href="/keranjang" className="w-10 p-2">
-          <Image src="icons/shopping-cart.png" alt="" />
+          <Image width={10} height={10} src="/icons/shopping-cart.png" alt="" />
         </Link>
       </ul>
     </div>

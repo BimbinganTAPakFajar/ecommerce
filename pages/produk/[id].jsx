@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
 export default function Product({ product }) {
   return (
     <div>
-      <Image src={product.image} alt="" />
+      <Image width={50} height={50} src={product.image} alt="" />
     </div>
   );
 }
