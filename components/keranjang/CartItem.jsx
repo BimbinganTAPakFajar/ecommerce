@@ -39,7 +39,6 @@ export default function CartItem({
               handleChange(id, Number(e.target.value));
             }}
             className="border-none focus:border-big text-center w-full h-full rounded-md"
-            aria-valuemin={1}
             value={String(amount).replace(/^0+/, "")}
             min={1}
             max={stock}

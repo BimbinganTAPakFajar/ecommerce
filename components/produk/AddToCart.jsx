@@ -109,7 +109,6 @@ export default function AddToCart({
                 handleOnChange(Number(e.target.value));
               }}
               className="border-none focus:border-big text-center w-full h-full rounded-md"
-              aria-valuemin={1}
               value={String(currentAmount).replace(/^0+/, "")}
               min={1}
               max={stock}

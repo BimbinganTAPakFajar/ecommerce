@@ -80,7 +80,7 @@ export default function Product({ product, background, items, rev }) {
       attributes: { stock, harvested },
     } = items[0];
     handleSelect(id, name, url, stock, harvested);
-  }, []);
+  }, [handleSelect, items, name, url]);
   const avgReview = averageReview(reviews.data);
   const reviewAmount = reviews.data.length;
   console.log(typeof price, "PRICE TYPE");
@@ -100,6 +100,7 @@ export default function Product({ product, background, items, rev }) {
     return items.map(({ id, attributes: { harvested, stock } }) => {
       return (
         <ItemCard
+          key={id}
           onClick={() => {
             handleSelect(id, name, url, stock, harvested);
           }}
@@ -136,7 +137,10 @@ export default function Product({ product, background, items, rev }) {
         ></iframe>
         {descriptions.map((desc, index) => {
           return (
-            <div className="flex flex-col items-center w-full">
+            <div
+              key={desc.subheader + index}
+              className="flex flex-col items-center w-full"
+            >
               <h2 className="text-2xl self-baseline text-black font-semibold">
                 {desc.subheader}
               </h2>
@@ -160,6 +164,7 @@ export default function Product({ product, background, items, rev }) {
   const renderReviews = () => {
     return rev.map(
       ({
+        id,
         attributes: {
           rating,
           description,
@@ -169,6 +174,7 @@ export default function Product({ product, background, items, rev }) {
       }) => {
         return (
           <ReviewCard
+            key={id}
             description={description}
             rating={rating}
             product_detail={product_detail}

@@ -25,6 +25,7 @@ const Footer = () => {
     return blogs.map(({ id, attributes: { title, author } }) => {
       return (
         <Link
+          key={id}
           className="rounded-md hover:bg-[#DEDCD4] w-full px-4 py-2"
           href={`/blog/${id}`}
         >
@@ -39,6 +40,7 @@ const Footer = () => {
     return products.map(({ id, attributes: { name, sold } }) => {
       return (
         <Link
+          key={id}
           className="rounded-md hover:bg-[#DEDCD4] w-full px-4 py-2"
           href={`/produk/${id}`}
         >

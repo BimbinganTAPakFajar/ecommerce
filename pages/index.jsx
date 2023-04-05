@@ -78,7 +78,7 @@ export default function Home({ products, landing, reviews }) {
   const generateWhyUs = () => {
     return whyus.map(({ title, description }) => {
       return (
-        <div className="flex flex-col w-[25%] p-4 gap-y-2">
+        <div key={title} className="flex flex-col w-[25%] p-4 gap-y-2">
           <h1 className="text-lg w-full font-bold border-l-[2px] pl-4 border-lime-500 text-black ">
             {title}
           </h1>
@@ -96,6 +96,7 @@ export default function Home({ products, landing, reviews }) {
   const renderReviews = (rev) => {
     return rev.map(
       ({
+        id,
         attributes: {
           rating,
           description,
@@ -105,6 +106,7 @@ export default function Home({ products, landing, reviews }) {
       }) => {
         return (
           <ReviewCard
+            key={id}
             description={description}
             rating={rating}
             product_detail={product_detail}
