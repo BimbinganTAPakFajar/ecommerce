@@ -47,7 +47,18 @@ export default function Product({ product, background, items, rev }) {
   const toggleTab = (tab) => {
     setCurrentTab(tab);
   };
-
+  const handleSelect = (id, name, src, stock, harvested) => {
+    const finalPrice = applyDiscount(price, harvested, category);
+    console.log(stock, "stock");
+    setSelectedItem({
+      id,
+      name,
+      src,
+      finalPrice,
+      stock,
+      harvested,
+    });
+  };
   const [selectedItem, setSelectedItem] = useState({
     id: "",
     name: "",
@@ -84,18 +95,7 @@ export default function Product({ product, background, items, rev }) {
   const avgReview = averageReview(reviews.data);
   const reviewAmount = reviews.data.length;
   console.log(typeof price, "PRICE TYPE");
-  const handleSelect = (id, name, src, stock, harvested) => {
-    const finalPrice = applyDiscount(price, harvested, category);
-    console.log(stock, "stock");
-    setSelectedItem({
-      id,
-      name,
-      src,
-      finalPrice,
-      stock,
-      harvested,
-    });
-  };
+
   const renderProducts = () => {
     return items.map(({ id, attributes: { harvested, stock } }) => {
       return (
