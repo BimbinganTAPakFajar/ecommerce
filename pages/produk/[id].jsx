@@ -47,6 +47,15 @@ export default function Product({ product, background, items, rev }) {
   const toggleTab = (tab) => {
     setCurrentTab(tab);
   };
+
+  const [selectedItem, setSelectedItem] = useState({
+    id: "",
+    name: "",
+    finalPrice: 0,
+    src: "",
+    stock: 0,
+    harvested: "",
+  });
   const handleSelect = (id, name, src, stock, harvested) => {
     const finalPrice = applyDiscount(price, harvested, category);
     console.log(stock, "stock");
@@ -59,14 +68,6 @@ export default function Product({ product, background, items, rev }) {
       harvested,
     });
   };
-  const [selectedItem, setSelectedItem] = useState({
-    id: "",
-    name: "",
-    finalPrice: 0,
-    src: "",
-    stock: 0,
-    harvested: "",
-  });
   const {
     attributes: {
       name,
@@ -91,7 +92,8 @@ export default function Product({ product, background, items, rev }) {
       attributes: { stock, harvested },
     } = items[0];
     handleSelect(id, name, url, stock, harvested);
-  }, [handleSelect, items, name, url]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const avgReview = averageReview(reviews.data);
   const reviewAmount = reviews.data.length;
   console.log(typeof price, "PRICE TYPE");
