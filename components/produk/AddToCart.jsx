@@ -83,12 +83,12 @@ export default function AddToCart({
           {days < 3 ? <span className="text-[#8BA76E]">SEGAR! </span> : ""}
           {price !== finalPrice ? (
             <span className="opacity-20 text-text line-through pr-1">
-              {"Rp" + formatPrice(price)}
+              {formatPrice(price)}
             </span>
           ) : (
             ""
           )}
-          {"Rp" + formatPrice(finalPrice) + "/kg"}
+          {formatPrice(finalPrice) + "/kg"}
         </h2>
         <p className="text-md">
           Dipanen{" "}
