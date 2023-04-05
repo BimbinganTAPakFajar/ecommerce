@@ -43,27 +43,28 @@ export default function RegisterForm() {
       }
     } catch (error) {
       console.log(error);
-      // setHttpError(error);
+      setHttpError(JSON.stringify(error.message));
     }
   };
-  if (httpError)
-    return (
-      <div
-        className="bg-red-100 border border-red-400 text-red-700 px-4 py-10 rounded relative"
-        role="alert"
-      >
-        <strong className="font-bold">Error!</strong>
-        <span className="block sm:inline">{httpError}</span>
-      </div>
-    );
+
   return (
     <form action="" method="post" className="flex flex-col gap-y-2">
+      {httpError && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-10 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error!</strong>
+          <span className="block sm:inline">{httpError}</span>
+        </div>
+      )}
       <div className="flex flex-col gap-y-1">
         <label htmlFor="email">Username</label>
         <input
           type="username"
           name="username"
           id="username"
+          required
           minLength={3}
           onChange={(e) => {
             username.current = e.target.value;
@@ -77,7 +78,8 @@ export default function RegisterForm() {
           type="email"
           name="email"
           id="email"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          required
+          pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
           onChange={(e) => {
             email.current = e.target.value;
           }}
@@ -89,7 +91,7 @@ export default function RegisterForm() {
         <input
           type="password"
           name="password"
-          id="password"
+          required
           minLength={8}
           onChange={(e) => {
             password.current = e.target.value;
@@ -103,6 +105,7 @@ export default function RegisterForm() {
           type="password"
           name="repeatPassword"
           id="repeatPassword"
+          required
           minLength={8}
           onChange={(e) => {
             repeatPassword.current = e.target.value;
@@ -115,10 +118,13 @@ export default function RegisterForm() {
         <p className="text-sm text-red-600"> {error}</p>
       </div>
       <button
+        type="submit"
+        disabled={error}
         onClick={(e) => {
           onSubmit(e);
         }}
         className="bg-big text-white rounded-md p-2"
+        s
       >
         Register
       </button>

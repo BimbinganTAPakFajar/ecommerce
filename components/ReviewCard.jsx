@@ -1,15 +1,28 @@
-import Image from "next/image";
+import { capitalize } from "@/utils";
+import StarRating from "./StarRating";
 
-export default function ReviewCard(p) {
+const ReviewCard = ({
+  product_detail,
+  users_permissions_user,
+  description,
+  rating,
+}) => {
+  const {
+    attributes: { username },
+  } = users_permissions_user.data;
+  const {
+    attributes: { name },
+  } = product_detail.data;
   return (
-    <div key={p.name} className="flex bg-bg rounded-md">
-      <div className="">
-        <Image className="" src={p.src} alt="" />
-      </div>
-      <div>
-        <h2 className="text-sm">{p.name}</h2>
-        <p className="text-sm">{p.desc}</p>
+    <div className="flex flex-col gap-3 w-full justify-start col-span-1">
+      <span className="font-bold">{name}</span>
+      <StarRating number={rating} />
+      <span className="text-justify font-medium">{description}</span>
+      <div className="flex w-full justify-end">
+        <span className="font-light">{capitalize(username)}</span>
       </div>
     </div>
   );
-}
+};
+
+export default ReviewCard;

@@ -1,5 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 import NavigationBar from "@/components/NavigationBar";
+import Footer from "@/components/Footer";
 import "@/styles/globals.css";
 export default function App({
   Component,
@@ -7,8 +8,11 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      <NavigationBar />
-      <Component {...pageProps} />
+      <div className="flex flex-col gap-y-20 w-full">
+        <NavigationBar />
+        <Component {...pageProps} />
+        <Footer />
+      </div>
     </SessionProvider>
   );
 }

@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
-import LoginForm from "@/components/LoginForm";
-import NavigationBar from "@/components/NavigationBar";
-import RegisterForm from "@/components/RegisterForm";
+import LoginForm from "@/components/login/LoginForm";
+import RegisterForm from "@/components/login/RegisterForm";
 import { useState } from "react";
 
 export default function Login() {
