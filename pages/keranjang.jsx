@@ -11,7 +11,7 @@ export async function getServerSideProps(context) {
   const session = await getSession(context);
   console.log(session, "SESSION");
   const userID = session.user.user.id;
-  console.log(session.user.user.id, "USERID ANJING");
+  console.log(session.user.user.id, "INI USER");
   const strapiJWT = session.user.jwt;
   const config = {
     headers: {
