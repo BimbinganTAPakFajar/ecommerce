@@ -10,6 +10,7 @@ import Script from "next/script";
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   const userID = session.user.user.id;
+  console.log(session.user.user.id, "USERID ANJING");
   const strapiJWT = session.user.jwt;
   const config = {
     headers: {

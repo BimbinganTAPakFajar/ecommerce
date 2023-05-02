@@ -36,6 +36,7 @@ export const authOptions = {
           );
           const user = res.data;
           if (user) {
+            console.log(user, "ADA USER");
             return user;
           } else {
             return null;
@@ -64,12 +65,16 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }) {
       session.user = token.user;
+      console.log(session, "SESSION");
+
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
+      console.log(token, "JWT");
+
       return token;
     },
   },
