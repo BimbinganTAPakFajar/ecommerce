@@ -6,6 +6,7 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 import { formatPrice } from "@/utils";
 import CheckoutPanel from "@/components/keranjang/CheckoutPanel";
+import Script from "next/script";
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   const userID = session.user.user.id;
@@ -117,6 +118,11 @@ export default function Keranjang({
   };
   return (
     <div className="w-full flex gap-x-5 p-3">
+      <Script
+        type="text/javascript"
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+      ></Script>
       <div className="w-2/3 flex flex-col">
         <h1 className="text-3xl font-semibold pb-5">Keranjang</h1>
         {cart.length !== 0 ? (
