@@ -53,9 +53,9 @@ export default function CheckoutPanel({
   };
   const generateCostOptions = () => {
     return costOptions.map(
-      ({ service, description, cost: [{ value, etd }] }) => {
+      ({ service, description, cost: [{ value, etd }] }, index) => {
         return (
-          <div className="text-text">
+          <div key={index} className="text-text">
             <div className="flex items-center">
               <input
                 onChange={(e) =>
@@ -88,7 +88,7 @@ export default function CheckoutPanel({
     return packagings.map(
       ({ id, attributes: { name, description, price } }) => {
         return (
-          <div className="text-text">
+          <div key={id} className="text-text">
             <div className="flex items-center">
               <input
                 onChange={(e) =>
@@ -201,6 +201,7 @@ export default function CheckoutPanel({
 
       getCities();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProvince]);
   useEffect(() => {
     if (Object.keys(selectedCity).length > 0) {
@@ -209,6 +210,7 @@ export default function CheckoutPanel({
       setIsCourierDisabled(true);
       getSubdistricts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
 
   useEffect(() => {
@@ -220,6 +222,7 @@ export default function CheckoutPanel({
     if (selectedCourier.length > 0) {
       getCost();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCourier]);
 
   const options = provinces.map(({ province, province_id }) => {
