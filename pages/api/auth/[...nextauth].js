@@ -39,6 +39,8 @@ export const authOptions = {
             console.log(user, "ADA USER");
             return user;
           } else {
+            console.log(user, "GA ADA GOBLOG");
+
             return null;
           }
         } catch (error) {
