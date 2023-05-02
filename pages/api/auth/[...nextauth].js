@@ -60,7 +60,7 @@ export const authOptions = {
   pages: {
     signIn: "/login",
   },
-  secret: process.env.SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
       session.user = token.user;
