@@ -3,7 +3,6 @@ import axios from "axios";
 export const fetchData = async (url) => {
   const res = await axios.get(url);
   const data = await res.data;
-  console.log(data);
   return data;
 };
 
@@ -15,7 +14,9 @@ export const formatPrice = (price) => {
   return Intl.NumberFormat("id", {
     style: "currency",
     currency: "IDR",
-  }).format(price);
+  })
+    .format(price)
+    .replace(/\s/g, "");
 };
 
 export function sliceIntoChunks(arr, chunkSize) {

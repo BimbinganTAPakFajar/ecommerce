@@ -2,9 +2,40 @@ import Header from "@/components/Header";
 import Link from "next/link";
 import CartItem from "@/components/keranjang/CartItem";
 import { useLocalStorage } from "@/hooks";
+import axios from "axios";
+import { getSession } from "next-auth/react";
 import { formatPrice } from "@/utils";
+import CheckoutPanel from "@/components/keranjang/CheckoutPanel";
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  const userID = session.user.user.id;
+  const strapiJWT = session.user.jwt;
+  const config = {
+    headers: {
+      key: process.env.NEXT_PUBLIC_RAJAONGKIR_KEY,
+    },
+  };
+  const provinceres = await axios.get(
+    "https://pro.rajaongkir.com/api/province",
+    config
+  );
+  const packagingres = await axios.get(
+    // `${process.env.NEXT_PUBLIC_STRAPI_URL_DEV}packagings`
 
-export default function Keranjang() {
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}packagings`
+  );
+  const packagings = packagingres.data.data;
+  const provinces = provinceres.data.rajaongkir.results;
+  return {
+    props: { provinces, packagings, userID, strapiJWT },
+  };
+}
+export default function Keranjang({
+  provinces,
+  packagings,
+  userID,
+  strapiJWT,
+}) {
   const [cart, setCart] = useLocalStorage("cart", []);
 
   const handleDelete = (id) => {
@@ -60,7 +91,6 @@ export default function Keranjang() {
   };
 
   const generateCart = () => {
-    console.log("asd");
     return cart.map((item) => {
       return (
         <CartItem
@@ -86,41 +116,42 @@ export default function Keranjang() {
     return total;
   };
   return (
-    <div className="w-full flex flex-col items-center gap-y-12">
-      <h1 className="text-4xl font-semibold">Keranjang</h1>
-      {cart.length !== 0 ? (
-        <>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-            <table class="w-full text-sm text-left ">
-              <thead class="text-xs  uppercase bg-[#DEDCD4]">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Image</span>
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Product
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-center">
-                    Qty
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Price
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Total
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-center">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>{generateCart()}</tbody>
-            </table>
-          </div>
-          <h1 className="text-2xl">
+    <div className="w-full flex gap-x-5 p-3">
+      <div className="w-2/3 flex flex-col">
+        <h1 className="text-3xl font-semibold pb-5">Keranjang</h1>
+        {cart.length !== 0 ? (
+          <div className="flex gap-x-10">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-fit">
+              <table className="w-full text-sm text-left ">
+                <thead className="text-xs  uppercase bg-[#DEDCD4]">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      <span className="sr-only">Image</span>
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Product
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-center">
+                      Qty
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Price
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Total
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-center">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{generateCart()}</tbody>
+              </table>
+            </div>
+            {/* <h1 className="text-2xl">
             Subtotal: {formatPrice(calculateSubTotal())}
-          </h1>
-          <Link
+          </h1> */}
+            {/* <Link
             href="/keranjang/checkout"
             className="rounded-md px-4 py-2 gap-x-5 text-white bg-big hover:bg-[#5E7647] flex justify-between items-center"
           >
@@ -139,11 +170,19 @@ export default function Keranjang() {
                 d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
               />
             </svg>
-          </Link>
-        </>
-      ) : (
-        "bye"
-      )}
+          </Link> */}
+          </div>
+        ) : (
+          "Keranjang anda kosong"
+        )}
+      </div>
+      <CheckoutPanel
+        provinces={provinces}
+        packagings={packagings}
+        userID={userID}
+        itemSubTotal={calculateSubTotal()}
+        strapiJWT={strapiJWT}
+      />
     </div>
   );
 }

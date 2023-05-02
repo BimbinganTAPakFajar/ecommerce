@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 export default function NavigationBar() {
   const { data: session, status } = useSession();
-  console.log(session, "session");
   const router = useRouter();
   const className = (path) => {
     return router.pathname.substring(1) === path

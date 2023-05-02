@@ -20,6 +20,8 @@ export const authOptions = {
 
         try {
           const res = await axios(
+            // `${process.env.NEXT_PUBLIC_STRAPI_URL_DEV}auth/local`,
+
             `${process.env.NEXT_PUBLIC_STRAPI_URL}auth/local`,
             {
               method: "POST",
@@ -34,7 +36,7 @@ export const authOptions = {
           );
           const user = res.data;
           if (user) {
-            return res;
+            return user;
           } else {
             return null;
           }
@@ -59,5 +61,17 @@ export const authOptions = {
     signIn: "/login",
   },
   secret: process.env.SECRET,
+  callbacks: {
+    async session({ session, token }) {
+      session.user = token.user;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+  },
 };
 export default NextAuth(authOptions);

@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import "moment/locale/id";
 import { diffDay, formatPrice } from "@/utils";
 import { useLocalStorage } from "@/hooks";
+import dynamic from "next/dynamic";
 
-export default function AddToCart({
+function AddToCart({
   id,
   name,
   src,
@@ -15,10 +16,8 @@ export default function AddToCart({
   harvested,
   togglePopUp,
 }) {
-  console.log(price === finalPrice, "PRICES");
   const days = moment().diff(harvested, "days");
 
-  // console.log(id, name, src, price, amount, harvested, "PRICEEEEE");
   const [currentAmount, setCurrentAmount] = useState(1);
 
   const [cart, setCart] = useLocalStorage("cart", []);
@@ -46,9 +45,7 @@ export default function AddToCart({
     togglePopUp();
   };
   const onPlus = () => {
-    // console.log("hi");
     if (currentAmount < stock) {
-      // console.log("hi");
       setCurrentAmount(currentAmount + 1);
     }
   };
@@ -56,7 +53,6 @@ export default function AddToCart({
     if (currentAmount === 1) {
       setCurrentAmount(1);
     } else {
-      // console.log("bye");
       setCurrentAmount(currentAmount - 1);
     }
   };
@@ -71,7 +67,6 @@ export default function AddToCart({
     }
   };
 
-  console.log(price, "oldprice");
   return (
     <div
       key={id}
@@ -137,3 +132,8 @@ export default function AddToCart({
     </div>
   );
 }
+
+const NoSSRAddToCart = dynamic(() => Promise.resolve(AddToCart), {
+  ssr: false,
+});
+export default NoSSRAddToCart;

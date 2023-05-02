@@ -42,7 +42,6 @@ export default function Home({ products, landing, reviews }) {
       whyus,
     },
   } = landing;
-  console.log(whyus, "whyus");
   const router = useRouter();
   const renderProducts = () => {
     return products.map(
@@ -92,7 +91,6 @@ export default function Home({ products, landing, reviews }) {
     Math.floor(reviews.length / 3)
   );
 
-  console.log(rev1, rev2, rev3, "rev");
   const renderReviews = (rev) => {
     return rev.map(
       ({

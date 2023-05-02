@@ -8,7 +8,7 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      <div className="flex flex-col gap-y-20 w-full">
+      <div className="flex flex-col gap-y-10 w-full">
         <NavigationBar />
         <Component {...pageProps} />
         <Footer />

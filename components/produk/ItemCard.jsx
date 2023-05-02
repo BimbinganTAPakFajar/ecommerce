@@ -2,7 +2,6 @@ import moment from "moment";
 
 const ItemCard = ({ harvested, onClick, selected }) => {
   const days = moment().diff(harvested, "days");
-  // console.log(days);
   const selectedClass = selected ? "border-big" : "";
   return (
     <button

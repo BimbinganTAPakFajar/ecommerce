@@ -24,6 +24,7 @@ const TentangKami = ({ about }) => {
         {content.map((content, index) => {
           const image = data[index] ? (
             <Image
+              key={index}
               width={600}
               height={800}
               className="object-cover rounded-md"

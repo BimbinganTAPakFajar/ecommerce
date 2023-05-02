@@ -28,8 +28,6 @@ export async function getServerSideProps(context) {
   const product = productres.data.data;
   const background = backgroundres.data.data;
   const rev = revres.data.data;
-  console.log(rev);
-  // console.log(background.attributes.images.data, "background");
   return {
     props: { product, background, items, rev },
   };
@@ -39,7 +37,6 @@ export default function Product({ product, background, items, rev }) {
   const [isSelected, setIsSelected] = useState(false);
   const [currentTab, setCurrentTab] = useState("description");
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  console.log("IS IT OPEN", isPopUpOpen);
   const togglePopUp = () => {
     setIsPopUpOpen(!isPopUpOpen);
   };
@@ -58,7 +55,6 @@ export default function Product({ product, background, items, rev }) {
   });
   const handleSelect = (id, name, src, stock, harvested) => {
     const finalPrice = applyDiscount(price, harvested, category);
-    console.log(stock, "stock");
     setSelectedItem({
       id,
       name,
@@ -96,8 +92,6 @@ export default function Product({ product, background, items, rev }) {
   }, []);
   const avgReview = averageReview(reviews.data);
   const reviewAmount = reviews.data.length;
-  console.log(typeof price, "PRICE TYPE");
-
   const renderProducts = () => {
     return items.map(({ id, attributes: { harvested, stock } }) => {
       return (
@@ -131,12 +125,7 @@ export default function Product({ product, background, items, rev }) {
         <h2 className="text-2xl self-baseline text-black font-semibold">
           Video Produk
         </h2>
-        <iframe
-          src={videourl}
-          height={400}
-          className="w-full"
-          frameborder="0"
-        ></iframe>
+        <iframe src={videourl} height={400} className="w-full"></iframe>
         {descriptions.map((desc, index) => {
           return (
             <div

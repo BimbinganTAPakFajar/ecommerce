@@ -21,7 +21,7 @@ export default function CartItem({
           <Image width={100} height={100} src={src} alt="" />
         </div>
       </td>
-      <td className="px-6 py-4 align-middle text-center font-semibold  dark:text-white">
+      <td className="px-6 py-4 align-middle text-center font-semibold ">
         {name}
       </td>
       <td className="px-6 py-4  w-full ">
@@ -54,10 +54,10 @@ export default function CartItem({
           </button>
         </div>
       </td>
-      <td className="px-6 py-4 align-middle  font-semibold  dark:text-white">
+      <td className="px-6 py-4 align-middle  font-semibold  ">
         {formatPrice(price)}
       </td>
-      <td className="px-6 py-4 align-middle  font-semibold  dark:text-white">
+      <td className="px-6 py-4 align-middle  font-semibold  ">
         {formatPrice(price * amount)}
       </td>
       <td className="px-6 py-4 align-middle text-center flex items-center justify-center h-40">

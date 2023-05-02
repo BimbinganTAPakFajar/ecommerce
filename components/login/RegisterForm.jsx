@@ -37,7 +37,6 @@ export default function RegisterForm() {
           },
         }
       );
-      console.log(res.data);
       if (res.status === 200) {
         signIn();
       }
