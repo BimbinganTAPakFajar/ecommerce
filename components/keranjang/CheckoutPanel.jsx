@@ -127,8 +127,7 @@ export default function CheckoutPanel({
     };
     console.log(selectedProvince.value, "selected prov value");
     const cityres = await axios.get(
-      `https://pro.rajaongkir.com/api/city?province=${selectedProvince.value}`,
-      config
+      `/api/rajaongkir/city?province=${selectedProvince.value}`
     );
     const cities = cityres.data.rajaongkir.results;
     const options = cities.map(({ city_name, city_id }) => {
@@ -153,8 +152,7 @@ export default function CheckoutPanel({
       },
     };
     const subres = await axios.get(
-      `https://pro.rajaongkir.com/api/subdistrict?city=${selectedCity.value}`,
-      config
+      `/api/rajaongkir/subdistrict?city=${selectedCity.value}`
     );
     const subdistricts = subres.data.rajaongkir.results;
     const options = subdistricts.map(({ subdistrict_name, subdistrict_id }) => {
@@ -183,11 +181,7 @@ export default function CheckoutPanel({
       weight: calculateWeight(),
       courier: selectedCourier,
     };
-    const costres = await axios.post(
-      "https://pro.rajaongkir.com/api/cost",
-      data,
-      config
-    );
+    const costres = await axios.post("/api/rajaongkir/cost", data);
     const costs = costres.data.rajaongkir.results[0].costs;
     setCostOptions(costs);
     setIsCostLoading(false);
@@ -296,18 +290,7 @@ export default function CheckoutPanel({
         usage_limit: 2,
       };
 
-      const midtransres = await axios(
-        `https://app.sandbox.midtrans.com/snap/v1/transactions`,
-        {
-          method: "POST",
-          data: midtrans,
-          headers: {
-            Authorization: `Basic ${Buffer.from(
-              process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY
-            ).toString("base64")}`,
-          },
-        }
-      );
+      const midtransres = await axios.post("/api/midtrans", midtrans);
       const { token } = midtransres.data;
       console.log(midtransres.data, "midtransres");
 
