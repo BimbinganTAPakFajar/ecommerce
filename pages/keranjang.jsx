@@ -122,7 +122,7 @@ export default function Keranjang({
     <div className="w-full flex gap-x-5 p-3">
       <Script
         type="text/javascript"
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        src="https://app.midtrans.com/snap/snap.js"
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
       ></Script>
       <div className="w-2/3 flex flex-col">
