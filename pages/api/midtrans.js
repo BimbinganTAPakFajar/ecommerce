@@ -24,12 +24,12 @@ export default async function handler(req, res) {
     snap.createTransaction(data).then((transaction) => {
       // transaction token
       snapToken = transaction.token;
-      console.log("transactionToken:", transactionToken);
+      console.log("transactionToken:", snapToken);
     });
     if (req.method === "POST") {
       console.log("yes");
       // res.status(200).json(midtransres.data);
-      res.status(200).json(snapToken);
+      res.status(200).json({ snapToken });
     }
   } catch (err) {
     res.status(500).send({ error: err });
