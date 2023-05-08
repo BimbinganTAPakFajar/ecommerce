@@ -291,10 +291,10 @@ export default function CheckoutPanel({
       };
 
       const midtransres = await axios.post("/api/midtrans", midtrans);
-      const { token } = midtransres.data;
+      const { snapToken } = midtransres.data;
       console.log(midtransres.data, "midtransres");
 
-      window.snap.pay(token, {
+      window.snap.pay(snapToken, {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           router.replace(`/pesanan`);
