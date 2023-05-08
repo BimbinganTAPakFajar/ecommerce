@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     //     ).toString("base64")}`,
     //   },
     // });
-    snap.createTransaction(data).then((transaction) => {
+    await snap.createTransaction(data).then((transaction) => {
       // transaction token
       snapToken = transaction.token;
       console.log("transactionToken:", snapToken);
