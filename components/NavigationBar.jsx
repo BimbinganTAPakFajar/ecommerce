@@ -59,7 +59,7 @@ export default function NavigationBar() {
 
       <ul className="h-10 flex gap-x-10 items-center font-bold ">
         {renderList()}
-        <Link href="/keranjang" className="w-10 p-2">
+        <Link href="/keranjang" prefetch={false} className="w-10 p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
