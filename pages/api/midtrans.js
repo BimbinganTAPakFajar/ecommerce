@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   let snap = new midtransClient.Snap({
     // Set to true if you want Production Environment (accept real transaction).
     isProduction: true,
+    // isProduction: false,
     serverKey: process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY,
   });
   let snapToken;

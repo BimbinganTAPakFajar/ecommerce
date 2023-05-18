@@ -20,8 +20,6 @@ export const authOptions = {
 
         try {
           const res = await axios(
-            // `${process.env.NEXT_PUBLIC_STRAPI_URL_DEV}auth/local`,
-
             `${process.env.NEXT_PUBLIC_STRAPI_URL}auth/local`,
             {
               method: "POST",

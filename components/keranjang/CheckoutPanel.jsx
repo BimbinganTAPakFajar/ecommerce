@@ -18,6 +18,7 @@ export default function CheckoutPanel({
   userID,
   itemSubTotal,
   strapiJWT,
+  togglePaying,
 }) {
   const [selectedProvince, setSelectedProvince] = useState({});
   const [selectedCity, setSelectedCity] = useState({});
@@ -36,6 +37,7 @@ export default function CheckoutPanel({
   const [cart, setCart] = useState([]);
   const [addressDetails, setAddressDetails] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [penerima, setPenerima] = useState("");
   const [selectedPackaging, setSelectedPackaging] = useState({});
   const router = useRouter();
   useEffect(() => {
@@ -119,13 +121,11 @@ export default function CheckoutPanel({
   const getCities = async () => {
     setCityLoading(true);
     setIsCityDisabled(true);
-    console.log("get cities");
     const config = {
       headers: {
         key: process.env.NEXT_PUBLIC_RAJAONGKIR_KEY,
       },
     };
-    console.log(selectedProvince.value, "selected prov value");
     const cityres = await axios.get(
       `/api/rajaongkir/city?province=${selectedProvince.value}`
     );
@@ -145,7 +145,6 @@ export default function CheckoutPanel({
 
   const getSubdistricts = async () => {
     setSubdistrictLoading(true);
-    console.log("get cities");
     const config = {
       headers: {
         key: process.env.NEXT_PUBLIC_RAJAONGKIR_KEY,
@@ -227,6 +226,7 @@ export default function CheckoutPanel({
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
+    togglePaying();
     if (!selectedCourier) {
       alert("Pilih kurir terlebih dahulu");
       return;
@@ -242,6 +242,8 @@ export default function CheckoutPanel({
     } else if (!selectedCostOption) {
       alert("Pilih ongkos kirim terlebih dahulu");
       return;
+    } else if (!penerima) {
+      alert("Masukkan nama penerima terlebih dahulu");
     } else {
       const address = {
         province: selectedProvince.label,
@@ -256,71 +258,86 @@ export default function CheckoutPanel({
         courier: selectedCourier,
         packaging: selectedPackaging,
         user: userID,
+        status: "Menunggu Pembayaran",
+        penerima: penerima,
         total:
           Number(itemSubTotal) +
           Number(selectedCostOption.price) +
           Number(selectedPackaging.price),
       };
-      const res = await axios(
-        // `${process.env.NEXT_PUBLIC_STRAPI_URL_DEV}orders`,
-        `${process.env.NEXT_PUBLIC_STRAPI_URL}orders`,
-        {
-          method: "POST",
-          data: {
-            data: data,
-          },
-          headers: {
-            Authorization: `Bearer ${strapiJWT}`,
-          },
-        }
-      );
+      const res = await axios(`${process.env.NEXT_PUBLIC_STRAPI_URL}orders`, {
+        method: "POST",
+        data: {
+          data: data,
+        },
+        headers: {
+          Authorization: `Bearer ${strapiJWT}`,
+        },
+      });
 
-      console.log(res.data, "orderres");
       const {
+        id,
         attributes: { total, uuid },
       } = res.data.data;
-      console.log("bot");
-      console.log(total, uuid, "total, uuid");
 
       const midtrans = {
         transaction_details: {
           order_id: uuid,
           gross_amount: total,
         },
-        usage_limit: 2,
+        customer_details: {
+          first_name: penerima,
+          phone: phoneNumber,
+        },
       };
-
       const midtransres = await axios.post("/api/midtrans", midtrans);
       const { snapToken } = midtransres.data;
-      console.log(midtransres.data, "midtransres");
+
+      localStorage.removeItem("cart");
 
       window.snap.pay(snapToken, {
-        onSuccess: function (result) {
+        onSuccess: async function (result) {
           /* You may add your own implementation here */
+
+          const res = await axios(
+            `${process.env.NEXT_PUBLIC_STRAPI_URL}orders/${id}`,
+            {
+              method: "PUT",
+              data: {
+                data: {
+                  status: "Pembayaran Berhasil",
+                },
+              },
+              headers: {
+                Authorization: `Bearer ${strapiJWT}`,
+              },
+            }
+          );
           router.replace(`/pesanan`);
           console.log(result);
         },
         onPending: function (result) {
           /* You may add your own implementation here */
-          alert("Mohon ditunggu!");
+          alert("Mohon ditunggu! Anda akan diarahkan ke halaman pesanan");
+          router.replace(`/pesanan`);
+
           console.log(result);
         },
         onError: function (result) {
           /* You may add your own implementation here */
           alert("Pembayaran gagal!");
-          router.replace(`/pesanan/${uuid}`);
-
+          router.replace(`/pesanan`);
           console.log(result);
         },
         onClose: function () {
           /* You may add your own implementation here */
-          router.replace(`/pesanan/${uuid}`);
-
-          alert("you closed the popup without finishing the payment");
+          router.replace(`/pesanan`);
+          alert("Silahkan melanjutkan pembayaran di halaman pesanan");
         },
       });
     }
   };
+  if (!cart) return <></>;
   return (
     <form className="w-1/3 p-3 overflow-y-scroll">
       <h1 className="text-3xl font-semibold pb-5 sticky top-0">
@@ -328,6 +345,23 @@ export default function CheckoutPanel({
       </h1>
       <div className="flex flex-col gap-y-4 pb-5">
         <h2 className="text-lg font-semibold">Alamat pengiriman</h2>
+        <div className="">
+          <label
+            for="penerima-input"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Nama Penerima
+          </label>
+          <input
+            required
+            onChange={(e) => {
+              setPenerima(e.target.value);
+            }}
+            type="text"
+            id="penerima-input"
+            className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
         <div className="">
           <label
             for="address-input"
@@ -464,16 +498,12 @@ export default function CheckoutPanel({
         <h1 className="text-black text-lg font-semibold">Pilih packaging</h1>
         {generatePackagingOptions()}
       </div>
-      {/* <button
-        className="px-4 py-2 rounded-md bg-big text-white mt-5"
-        onSubmit={handleSubmit}
+      <input
+        className="w-20 h-10 bg-big hover:bg-[#5E7647] text-white rounded-md cursor-pointer mt-5"
+        onClick={(e) => handleSubmit(e)}
+        value="Bayar"
         type="submit"
-        name=""
-        id=""
-      >
-        Bayar
-      </button> */}
-      <input onClick={(e) => handleSubmit(e)} type="submit" />
+      />
     </form>
   );
 }

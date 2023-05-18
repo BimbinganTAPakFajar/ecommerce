@@ -17,6 +17,9 @@ export async function getServerSideProps(context) {
     axios.get(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}products?populate=*&sort=harvested:desc&filters\[product_detail\][id][$eq]=${id}`
     ),
+    // axios.get(
+    //   `${process.env.NEXT_PUBLIC_STRAPI_URL}product-backgrounds/${id}?populate=*`
+    // ),
     axios.get(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}product-backgrounds/${id}?populate=*`
     ),

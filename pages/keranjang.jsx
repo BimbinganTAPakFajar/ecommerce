@@ -7,6 +7,8 @@ import { getSession } from "next-auth/react";
 import { formatPrice } from "@/utils";
 import CheckoutPanel from "@/components/keranjang/CheckoutPanel";
 import Script from "next/script";
+import { useState } from "react";
+import LoadingBlocker from "@/components/LoadingBlocker";
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   console.log(session, "SESSION");
@@ -23,8 +25,6 @@ export async function getServerSideProps(context) {
     config
   );
   const packagingres = await axios.get(
-    // `${process.env.NEXT_PUBLIC_STRAPI_URL_DEV}packagings`
-
     `${process.env.NEXT_PUBLIC_STRAPI_URL}packagings`
   );
   const packagings = packagingres.data.data;
@@ -40,7 +40,10 @@ export default function Keranjang({
   strapiJWT,
 }) {
   const [cart, setCart] = useLocalStorage("cart", []);
-
+  const [isPaying, setIsPaying] = useState(false);
+  const togglePaying = () => {
+    setIsPaying(!isPaying);
+  };
   const handleDelete = (id) => {
     const newCart = cart.filter((item) => item.id !== id);
     setCart(newCart);
@@ -120,6 +123,7 @@ export default function Keranjang({
   };
   return (
     <div className="w-full flex gap-x-5 p-3">
+      <LoadingBlocker isOpen={isPaying} />
       <Script
         type="text/javascript"
         src={process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL}
@@ -190,6 +194,7 @@ export default function Keranjang({
         userID={userID}
         itemSubTotal={calculateSubTotal()}
         strapiJWT={strapiJWT}
+        togglePaying={togglePaying}
       />
     </div>
   );

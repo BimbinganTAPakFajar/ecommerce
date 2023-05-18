@@ -16,7 +16,7 @@ export default function NavigationBar() {
   };
 
   const renderList = () => {
-    const links = ["produk", "tentangkami", "login"];
+    const links = ["produk", "tentangkami", "login", "pesanan"];
     return links.map((l) => {
       if (l === "login") {
         if (status === "authenticated") {
@@ -37,6 +37,15 @@ export default function NavigationBar() {
             </button>
           </li>
         );
+      } else if (l === "pesanan") {
+        if (status === "authenticated") {
+          return (
+            <li key={l} className={className(l)}>
+              <Link href={`/${l}`}>{navItem(l)}</Link>
+            </li>
+          );
+        }
+        return null;
       } else
         return (
           <li key={l} className={className(l)}>
