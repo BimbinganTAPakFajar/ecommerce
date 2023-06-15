@@ -19,26 +19,41 @@ export default function CheckoutPanel({
   itemSubTotal,
   strapiJWT,
   togglePaying,
+  userInfo,
 }) {
-  const [selectedProvince, setSelectedProvince] = useState({});
-  const [selectedCity, setSelectedCity] = useState({});
+  const {
+    nama,
+    alamat: { province, subdistrict, city, address_details, phone },
+  } = userInfo;
+  const [selectedProvince, setSelectedProvince] = useState({
+    label: province.label,
+    value: province.value,
+  });
+  const [selectedCity, setSelectedCity] = useState({
+    label: city.label,
+    value: city.value,
+  });
   const [cityLoading, setCityLoading] = useState(false);
   const [cityOptions, setCityOptions] = useState([]);
   const [isCityDisabled, setIsCityDisabled] = useState(true);
   const [isSubdistrictDisabled, setIsSubdistrictDisabled] = useState(true);
-  const [selectedSubdistrict, setSelectedSubdistrict] = useState({});
+  const [selectedSubdistrict, setSelectedSubdistrict] = useState({
+    label: subdistrict.label,
+    value: subdistrict.value,
+  });
   const [subdistrictLoading, setSubdistrictLoading] = useState(false);
   const [subdistrictOptions, setSubdistrictOptions] = useState([]);
   const [isCostLoading, setIsCostLoading] = useState(false);
   const [selectedCourier, setSelectedCourier] = useState("");
-  const [isCourierDisabled, setIsCourierDisabled] = useState(true);
+  const [isCourierDisabled, setIsCourierDisabled] = useState(false);
   const [costOptions, setCostOptions] = useState([]);
   const [selectedCostOption, setSelectedCostOption] = useState({});
   const [cart, setCart] = useState([]);
-  const [addressDetails, setAddressDetails] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [penerima, setPenerima] = useState("");
+  const [addressDetails, setAddressDetails] = useState(address_details);
+  const [phoneNumber, setPhoneNumber] = useState(phone);
+  const [penerima, setPenerima] = useState(nama);
   const [selectedPackaging, setSelectedPackaging] = useState({});
+  const [isToggleAlamat, setIsToggleAlamat] = useState(true);
   const router = useRouter();
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -53,7 +68,17 @@ export default function CheckoutPanel({
     });
     return weight;
   };
+
+  const toggleAlamat = () => {
+    setCostOptions([]);
+    setIsCourierDisabled(!isCourierDisabled);
+    setIsToggleAlamat(!isToggleAlamat);
+  };
+  useEffect(() => {
+    console.log(isCourierDisabled);
+  }, [isCourierDisabled]);
   const generateCostOptions = () => {
+    if (isCourierDisabled) return;
     return costOptions.map(
       ({ service, description, cost: [{ value, etd }] }, index) => {
         return (
@@ -185,32 +210,90 @@ export default function CheckoutPanel({
     setCostOptions(costs);
     setIsCostLoading(false);
   };
-  useEffect(() => {
-    if (Object.keys(selectedProvince).length > 0) {
-      setSelectedCity({});
-      setSelectedSubdistrict({});
-      setIsSubdistrictDisabled(true);
-      setIsCourierDisabled(true);
+  const onProvinceChange = () => {
+    setSelectedCity({});
+    setSelectedSubdistrict({});
+    setIsSubdistrictDisabled(true);
+    setIsCourierDisabled(true);
 
-      getCities();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProvince]);
-  useEffect(() => {
-    if (Object.keys(selectedCity).length > 0) {
-      setSelectedSubdistrict({});
-      setIsSubdistrictDisabled(true);
-      setIsCourierDisabled(true);
-      getSubdistricts();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCity]);
+    getCities();
+  };
+  const onCityChange = () => {
+    setSelectedSubdistrict({});
+    setIsSubdistrictDisabled(true);
+    setIsCourierDisabled(true);
+    getSubdistricts();
+  };
 
-  useEffect(() => {
-    if (Object.keys(selectedSubdistrict).length > 0) {
-      setIsCourierDisabled(false);
-    }
-  }, [selectedSubdistrict]);
+  const onSubdistrictChange = () => {
+    setIsCourierDisabled(false);
+  };
+  // useEffect(() => {
+  //   if (Object.keys(selectedProvince).length > 0) {
+  //     console.log("CLEAR IN PROV");
+  //     setSelectedCity({});
+  //     setSelectedSubdistrict({});
+  //     setIsSubdistrictDisabled(true);
+  //     setIsCourierDisabled(true);
+
+  //     getCities();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedProvince]);
+  // useEffect(() => {
+  //   if (Object.keys(selectedCity).length > 0) {
+  //     console.log("CLEAR IN CITY");
+
+  //     setSelectedSubdistrict({});
+  //     setIsSubdistrictDisabled(true);
+  //     setIsCourierDisabled(true);
+  //     getSubdistricts();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedCity]);
+
+  // useEffect(() => {
+  //   if (Object.keys(selectedSubdistrict).length > 0) {
+  //     console.log("CLEAR IN SUB");
+
+  //     setIsCourierDisabled(false);
+  //   }
+  // }, [selectedSubdistrict]);
+
+  const renderCourierOptions = () => {
+    if (isCourierDisabled) return;
+    return (
+      <div className="flex gap-x-3">
+        <div className="flex items-center">
+          <input
+            onChange={(e) => setSelectedCourier(e.target.value)}
+            id="default-radio-1"
+            type="radio"
+            value="jne"
+            name="default-radio-1"
+            className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
+          />
+          <label for="default-radio-1" className="ml-2 text-sm font-medium ">
+            JNE
+          </label>
+        </div>
+        <div className="flex items-center">
+          <input
+            onChange={(e) => setSelectedCourier(e.target.value)}
+            id="default-radio-2"
+            type="radio"
+            value="sicepat"
+            name="default-radio-2"
+            className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+          />
+          <label for="default-radio-2" className="ml-2 text-sm font-medium ">
+            SiCepat
+          </label>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (selectedCourier.length > 0) {
       getCost();
@@ -246,9 +329,15 @@ export default function CheckoutPanel({
       alert("Masukkan nama penerima terlebih dahulu");
     } else {
       const address = {
-        province: selectedProvince.label,
-        city: selectedCity.label,
-        subdistrict: selectedSubdistrict.label,
+        province: {
+          label: selectedProvince.label,
+          value: selectedProvince.value,
+        },
+        city: { label: selectedCity.label, value: selectedCity.value },
+        subdistrict: {
+          label: selectedSubdistrict.label,
+          value: selectedSubdistrict.value,
+        },
         address_details: addressDetails,
         phone: phoneNumber,
       };
@@ -305,7 +394,7 @@ export default function CheckoutPanel({
               method: "PUT",
               data: {
                 data: {
-                  status: "Pembayaran Berhasil",
+                  status: "Pesanan Diproses",
                 },
               },
               headers: {
@@ -343,147 +432,150 @@ export default function CheckoutPanel({
       <h1 className="text-3xl font-semibold pb-5 sticky top-0">
         Detail Pengiriman
       </h1>
-      <div className="flex flex-col gap-y-4 pb-5">
-        <h2 className="text-lg font-semibold">Alamat pengiriman</h2>
-        <div className="">
-          <label
-            for="penerima-input"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Nama Penerima
-          </label>
-          <input
-            required
-            onChange={(e) => {
-              setPenerima(e.target.value);
-            }}
-            type="text"
-            id="penerima-input"
-            className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div className="">
-          <label
-            for="address-input"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Alamat lengkap
-          </label>
-          <input
-            required
-            onChange={(e) => {
-              setAddressDetails(e.target.value);
-            }}
-            type="text"
-            id="address-input"
-            className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div className="">
-          <label
-            for="phone"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Nomor HP
-          </label>
-          <input
-            onChange={(e) => {
-              setPhoneNumber(e.target.value);
-            }}
-            required
-            pattern="^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$"
-            type="text"
-            title="Nomor HP tidak valid."
-            id="phone"
-            className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label for="province">Provinsi</label>
-          <Select
-            id="province"
-            onChange={(choice) => {
-              setSelectedProvince(choice);
-            }}
-            placeholder="Pilih provinsi..."
-            className=""
-            options={options}
-          />
-        </div>
-        <div>
-          <label for="city">Kota</label>
-          <Select
-            id="city"
-            className=""
-            onChange={(choice) => setSelectedCity(choice)}
-            placeholder="Pilih kota..."
-            options={cityOptions}
-            value={selectedCity || null}
-            isLoading={cityLoading}
-            isDisabled={isCityDisabled}
-          />
-        </div>
+      <div className="flex gap-x-5">
+        <span>Gunakan alamat terdaftar</span>
 
-        <div>
-          <label for="subdistrict">Kecamatan</label>
-          <Select
-            id="subdistrict"
-            className=""
-            onChange={(choice) => setSelectedSubdistrict(choice)}
-            placeholder="Pilih kecamatan..."
-            options={subdistrictOptions}
-            on
-            value={selectedSubdistrict || null}
-            isLoading={subdistrictLoading}
-            isDisabled={isSubdistrictDisabled}
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input
+            onClick={toggleAlamat}
+            type="checkbox"
+            value=""
+            class="sr-only peer"
+            checked={isToggleAlamat}
           />
-        </div>
+          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        </label>
       </div>
+      {!isToggleAlamat && (
+        <div className="flex flex-col gap-y-4 pb-5">
+          <h2 className="text-lg font-semibold">Alamat pengiriman</h2>
+          <div className="">
+            <label for="penerima-input">Nama Penerima</label>
+            <input
+              required
+              onChange={(e) => {
+                setPenerima(e.target.value);
+              }}
+              type="text"
+              id="penerima-input"
+              className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div className="">
+            <label for="address-input">Alamat lengkap</label>
+            <input
+              required
+              onChange={(e) => {
+                setAddressDetails(e.target.value);
+              }}
+              type="text"
+              id="address-input"
+              className="h-10 block text-sm p-1 w-full border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div className="">
+            <label for="phone">Nomor HP</label>
+            <input
+              onChange={(e) => {
+                setPhoneNumber(e.target.value);
+              }}
+              required
+              pattern="^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$"
+              type="text"
+              title="Nomor HP tidak valid."
+              id="phone"
+              className="h-10 block text-sm p-1 w-full text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label for="province">Provinsi</label>
+            <Select
+              id="province"
+              onChange={(choice) => {
+                onProvinceChange();
+                setSelectedProvince(choice);
+              }}
+              placeholder="Pilih provinsi..."
+              className=""
+              options={options}
+            />
+          </div>
+          <div>
+            <label for="city">Kota</label>
+            <Select
+              id="city"
+              className=""
+              onChange={(choice) => {
+                onCityChange();
+                setSelectedCity(choice);
+              }}
+              placeholder="Pilih kota..."
+              options={cityOptions}
+              value={selectedCity || null}
+              isLoading={cityLoading}
+              isDisabled={isCityDisabled}
+            />
+          </div>
+
+          <div>
+            <label for="subdistrict">Kecamatan</label>
+            <Select
+              id="subdistrict"
+              className=""
+              onChange={(choice) => {
+                onSubdistrictChange();
+                setSelectedSubdistrict(choice);
+              }}
+              placeholder="Pilih kecamatan..."
+              options={subdistrictOptions}
+              on
+              value={selectedSubdistrict || null}
+              isLoading={subdistrictLoading}
+              isDisabled={isSubdistrictDisabled}
+            />
+          </div>
+        </div>
+      )}
+
       <h1 className="text-black text-lg font-semibold">Pilih ekspedisi</h1>
-      {isCourierDisabled ? (
+      {isCourierDisabled && (
         <div className="text-text pb-3">
           <div className="text-red-500 text-sm">
             Atur alamat terlebih dahulu!
           </div>
         </div>
-      ) : (
-        <div>
-          <div className="flex gap-x-3">
-            <div className="flex items-center">
-              <input
-                onChange={(e) => setSelectedCourier(e.target.value)}
-                id="default-radio-1"
-                type="radio"
-                value="jne"
-                name="default-radio"
-                className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              />
-              <label
-                for="default-radio-1"
-                className="ml-2 text-sm font-medium "
-              >
-                JNE
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                onChange={(e) => setSelectedCourier(e.target.value)}
-                id="default-radio-2"
-                type="radio"
-                value="sicepat"
-                name="default-radio"
-                className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-              />
-              <label
-                for="default-radio-2"
-                className="ml-2 text-sm font-medium "
-              >
-                SiCepat
-              </label>
-            </div>
+      )}
+      {/* {!isCourierDisabled && (
+        <div className="flex gap-x-3">
+          <div className="flex items-center">
+            <input
+              onChange={(e) => setSelectedCourier(e.target.value)}
+              id="default-radio-1"
+              type="radio"
+              value="jne"
+              name="default-radio-1"
+              className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            />
+            <label for="default-radio-1" className="ml-2 text-sm font-medium ">
+              JNE
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              onChange={(e) => setSelectedCourier(e.target.value)}
+              id="default-radio-2"
+              type="radio"
+              value="sicepat"
+              name="default-radio-2"
+              className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+            />
+            <label for="default-radio-2" className="ml-2 text-sm font-medium ">
+              SiCepat
+            </label>
           </div>
         </div>
-      )}
+      )} */}
+      {renderCourierOptions()}
       {isCostLoading ? (
         <div>Loading...</div>
       ) : (

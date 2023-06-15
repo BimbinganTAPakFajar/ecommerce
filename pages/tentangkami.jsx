@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import axios from "axios";
 import Image from "next/image";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
 export async function getServerSideProps(context) {
   const aboutres = await axios.get(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}about-page?populate=*`
@@ -50,3 +51,6 @@ const TentangKami = ({ about }) => {
 };
 
 export default TentangKami;
+TentangKami.getLayout = function getLayout(page) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};

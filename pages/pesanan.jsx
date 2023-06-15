@@ -6,7 +6,12 @@ import { useState } from "react";
 import "moment/locale/id";
 import Script from "next/script";
 import { useRouter } from "next/router";
-
+import Error from "next/error";
+import ErrorAlert from "@/components/ErrorAlert";
+import { useEffect } from "react";
+import ResiModal from "@/components/pesanan/ResiModal";
+import OrderModal from "@/components/pesanan/OrderModal";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   const userID = session.user.user.id;
@@ -34,20 +39,31 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
   const router = useRouter();
   const moment = require("moment");
   moment.locale("id");
-  const [isPaying, setIsPaying] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const togglePaying = () => {
-    setIsPaying(!isPaying);
-  };
-  const [modalContent, setModalContent] = useState({});
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const toggleModal = (obj) => {
-    setModalContent(obj);
-    setIsModalOpen(!isModalOpen);
+  const [resiModalContent, setResiModalContent] = useState({});
+  const [isResiModalOpen, setIsResiModalOpen] = useState(false);
+
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [orderModalContent, setOrderModalContent] = useState({});
+
+  const toggleLoading = () => {
+    setIsLoading(!isLoading);
+  };
+
+  const closeAlert = () => {
+    setIsAlertOpen(false);
+  };
+
+  const openResiModal = (obj) => {
+    setResiModalContent(obj);
+    setIsResiModalOpen(true);
   };
 
   const handlePayment = async (id, uuid, total, penerima, phoneNumber) => {
-    togglePaying();
+    toggleLoading();
     const midtrans = {
       transaction_details: {
         order_id: uuid,
@@ -97,36 +113,130 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
       },
       onClose: function () {
         /* You may add your own implementation here */
+        setIsLoading(false);
         router.replace(`/pesanan`);
         alert("Silahkan melanjutkan pembayaran di halaman pesanan");
       },
     });
   };
 
+  const handleCekResi = async (resi, courier) => {
+    const data = {
+      waybill: resi,
+      courier: courier,
+    };
+    console.log(data, "cekresi data");
+    let residata;
+    try {
+      setIsLoading(true);
+      residata = await axios.post("/api/rajaongkir/waybill", data);
+      openResiModal(residata.data);
+    } catch (error) {
+      setError(error.response.data.error);
+      setIsAlertOpen(true);
+      // console.log(error);
+      // console.log(error.response.data.error, "ERROR");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOpenOrderDetails = ({
+    cart,
+    total,
+    status,
+    penerima,
+    address,
+    uuid,
+    createdAt,
+  }) => {
+    setOrderModalContent({
+      cart,
+      total,
+      status,
+      penerima,
+      address,
+      uuid,
+      createdAt,
+    });
+    setIsOrderModalOpen(true);
+  };
+
   const statusColor = (status) => {
-    if (status === "Pembayaran Berhasil") {
+    if (status === "Pesanan Selesai") {
       return "h-2.5 w-2.5 rounded-full bg-green-500 mr-2";
     } else if (status === "Menunggu Pembayaran") {
       return "h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2";
     } else if (status === "Pembayaran Gagal") {
       return "h-2.5 w-2.5 rounded-full bg-red-500 mr-2";
+    } else if (status === "Pesanan Dikirim") {
+      return "h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2";
     }
+  };
+
+  const renderActionButton = (
+    status,
+    resi,
+    courier,
+    { id, uuid, total, penerima, phoneNumber }
+  ) => {
+    if (status === "Menunggu Pembayaran" || status === "Pembayaran Gagal") {
+      return (
+        <button
+          onClick={() => handlePayment(id, uuid, total, penerima, phoneNumber)}
+          className="font-medium text-green-600"
+        >
+          Bayar
+        </button>
+      );
+    } else
+      return (
+        <button
+          onClick={() => handleCekResi(resi, courier)}
+          className="font-medium text-green-600"
+        >
+          Cek Resi
+        </button>
+      );
   };
   const renderOrders = () => {
     return orders.map(
-      ({ id, uuid, createdAt, total, status, penerima, phoneNumber }) => {
+      ({
+        id,
+        uuid,
+        createdAt,
+        total,
+        status,
+        penerima,
+        address,
+        phoneNumber,
+        cart,
+        resi,
+        courier,
+      }) => {
         return (
-          <tr
-            key={id}
-            onClick={() => alert("hi")}
-            className="bg-white border-b hover:bg-[#DEDCD4] hover:cursor-pointer"
-          >
+          <tr key={id} className="bg-white border-b">
             <th
               scope="row"
-              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
+              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap  "
             >
               <div className="pl-3">
-                <div className="text-base font-semibold">{uuid}</div>
+                <div
+                  onClick={() =>
+                    handleOpenOrderDetails({
+                      cart,
+                      total,
+                      status,
+                      penerima,
+                      address,
+                      uuid,
+                      createdAt,
+                    })
+                  }
+                  className="text-base font-semibold  cursor-pointer hover:underline"
+                >
+                  {uuid}
+                </div>
                 <div className="font-normal text-gray-500">
                   {moment(createdAt).format("DD MMMM YYYY")}
                 </div>
@@ -139,18 +249,13 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
               </div>
             </td>
             <td className="px-6 py-4">
-              {status !== "Pembayaran Berhasil" ? (
-                <button
-                  onClick={() =>
-                    handlePayment(id, uuid, total, penerima, phoneNumber)
-                  }
-                  className="font-medium text-green-600"
-                >
-                  Bayar
-                </button>
-              ) : (
-                <></>
-              )}
+              {renderActionButton(status, resi, courier, {
+                id,
+                uuid,
+                total,
+                penerima,
+                phoneNumber,
+              })}
             </td>
           </tr>
         );
@@ -159,8 +264,19 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
   };
   return (
     <div className="w-full">
+      <ErrorAlert isOpen={isAlertOpen} onClose={closeAlert} message={error} />
       <h1 className="text-4xl font-semibold text-black pb-8">Pesanan</h1>
-      <LoadingBlocker isOpen={isPaying} />
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        orderData={orderModalContent}
+      />
+      <ResiModal
+        isOpen={isResiModalOpen}
+        onClose={() => setIsResiModalOpen(false)}
+        resiData={resiModalContent}
+      />
+      <LoadingBlocker isOpen={isLoading} />
       <Script
         type="text/javascript"
         src={process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL}
@@ -190,3 +306,7 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
     </div>
   );
 }
+
+Pesanan.getLayout = function getLayout(page) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};

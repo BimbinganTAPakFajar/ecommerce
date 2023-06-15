@@ -3,6 +3,8 @@ import NavigationBar from "@/components/NavigationBar";
 import axios from "axios";
 import { useState } from "react";
 import ProductCard from "@/components/produk/ProductCard";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
+
 export async function getServerSideProps() {
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}product-details?populate=*`
@@ -115,3 +117,7 @@ const Product = ({ products }) => {
 };
 
 export default Product;
+
+Product.getLayout = function getLayout(page) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};

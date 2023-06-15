@@ -8,6 +8,8 @@ import { applyDiscount, averageReview } from "@/utils";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
 import { useEffect } from "react";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
+
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const [productres, itemres, backgroundres, revres] = await Promise.all([
@@ -21,7 +23,7 @@ export async function getServerSideProps(context) {
     //   `${process.env.NEXT_PUBLIC_STRAPI_URL}product-backgrounds/${id}?populate=*`
     // ),
     axios.get(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}product-backgrounds/${id}?populate=*`
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}product-backgrounds?populate=*&filters\[product_detail\][id][$eq]=${id}`
     ),
     axios.get(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}reviews?populate=*&filters\[product_detail\][id][$eq]=${id}`
@@ -29,7 +31,8 @@ export async function getServerSideProps(context) {
   ]);
   const items = itemres.data.data;
   const product = productres.data.data;
-  const background = backgroundres.data.data;
+  const background = backgroundres.data.data[0];
+  console.log(background, "background");
   const rev = revres.data.data;
   return {
     props: { product, background, items, rev },
@@ -273,3 +276,7 @@ export default function Product({ product, background, items, rev }) {
     </div>
   );
 }
+
+Product.getLayout = function getLayout(page) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};

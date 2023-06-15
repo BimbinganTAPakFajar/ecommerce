@@ -9,6 +9,7 @@ import CheckoutPanel from "@/components/keranjang/CheckoutPanel";
 import Script from "next/script";
 import { useState } from "react";
 import LoadingBlocker from "@/components/LoadingBlocker";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   console.log(session, "SESSION");
@@ -20,6 +21,17 @@ export async function getServerSideProps(context) {
       key: process.env.NEXT_PUBLIC_RAJAONGKIR_KEY,
     },
   };
+  const userInfoRes = await axios(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}users/me?populate=*`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${strapiJWT}`,
+      },
+    }
+  );
+
+  const userInfo = userInfoRes.data;
   const provinceres = await axios.get(
     "https://pro.rajaongkir.com/api/province",
     config
@@ -30,7 +42,7 @@ export async function getServerSideProps(context) {
   const packagings = packagingres.data.data;
   const provinces = provinceres.data.rajaongkir.results;
   return {
-    props: { provinces, packagings, userID, strapiJWT },
+    props: { provinces, packagings, userID, strapiJWT, userInfo },
   };
 }
 export default function Keranjang({
@@ -38,6 +50,7 @@ export default function Keranjang({
   packagings,
   userID,
   strapiJWT,
+  userInfo,
 }) {
   const [cart, setCart] = useLocalStorage("cart", []);
   const [isPaying, setIsPaying] = useState(false);
@@ -195,7 +208,12 @@ export default function Keranjang({
         itemSubTotal={calculateSubTotal()}
         strapiJWT={strapiJWT}
         togglePaying={togglePaying}
+        userInfo={userInfo}
       />
     </div>
   );
 }
+
+Keranjang.getLayout = function getLayout(page) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};

@@ -1,10 +1,10 @@
 export default async function handler(req, res) {
   const midtransClient = require("midtrans-client");
   // Create Snap API instance
+  const isProd = process.env.NODE_ENV === "production";
   let snap = new midtransClient.Snap({
     // Set to true if you want Production Environment (accept real transaction).
-    isProduction: true,
-    // isProduction: false,
+    isProduction: isProd,
     serverKey: process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY,
   });
   let snapToken;
