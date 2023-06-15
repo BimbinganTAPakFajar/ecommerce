@@ -17,9 +17,9 @@ export default function AdminLayout({ children }) {
   const list = ["pesanan", "produk", "detil", "stok", "packaging"];
 
   const renderList = () => {
-    return list.map((name) => {
+    return list.map((name, id) => {
       return (
-        <li>
+        <li key={`${id}${name}`}>
           <Link href={`/admin/${name}`} className={className(name)}>
             <svg
               aria-hidden="true"

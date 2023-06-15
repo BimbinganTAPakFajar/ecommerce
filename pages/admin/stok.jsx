@@ -114,7 +114,11 @@ export default function Stok({
 
   const generateProductDetailOptions = () => {
     return productdetails.map(({ id, attributes: { name } }) => {
-      return <option value={id}>{name}</option>;
+      return (
+        <option key={`option-${id}`} value={id}>
+          {name}
+        </option>
+      );
     });
   };
   const handleDeleteStok = async (id) => {
@@ -147,7 +151,10 @@ export default function Stok({
         },
       }) => {
         return (
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            key={`stok-${id}`}
+            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               className="px-6 py-4 font-medium  whitespace-nowrap dark:text-white cursor-pointer hover:underline"

@@ -15,9 +15,12 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
     createdAt,
   } = orderData;
   const generateCartItems = () => {
-    return cart.map(({ name, amount, src }) => {
+    return cart.map(({ id, name, amount, src }) => {
       return (
-        <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 p-2">
+        <div
+          key={`${id}${name}`}
+          class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 p-2"
+        >
           <Image
             width={50}
             height={50}

@@ -20,7 +20,7 @@ export default function ResiModal({ isOpen, onClose, resiData }) {
     return manifest.map(
       ({ city_name, manifest_date, manifest_description, manifest_time }) => {
         return (
-          <li className="mb-5 ml-4">
+          <li key={`${city_name}${manifest_date}`} className="mb-5 ml-4">
             <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
             <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               {manifest_date + " " + manifest_time}
