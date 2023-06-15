@@ -54,12 +54,14 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
     if (imageInput.length > 0) {
       uploadImage(changedImage, changedImageURL);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageInput]);
 
   useEffect(() => {
     if (videoInput.length > 0) {
       uploadVideo();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoInput]);
 
   useEffect(() => {
@@ -186,7 +188,10 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
         },
       }) => {
         return (
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            key={`detail${id}`}
+            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:underline"
@@ -224,7 +229,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
   const generateEditImageFields = () => {
     return selectedProduct.images.map(({ id, attributes: { url } }, i) => {
       return (
-        <div className="flex gap-x-3">
+        <div key={`edit${id}`} className="flex gap-x-3">
           <Image
             className="aspect-square overflow-hidden rounded-md"
             src={visibleImageUrls[i]}

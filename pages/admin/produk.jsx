@@ -125,11 +125,15 @@ export default function Produk({ products, strapiJWT, userRole }) {
     return categories.map((category) => {
       if (category === selectedProduct.category)
         return (
-          <option value={category} selected>
+          <option key={`option${category}`} value={category} selected>
             {category}
           </option>
         );
-      return <option value={category}>{category}</option>;
+      return (
+        <option key={`option${category}`} value={category}>
+          {category}
+        </option>
+      );
     });
   };
 
@@ -156,7 +160,10 @@ export default function Produk({ products, strapiJWT, userRole }) {
         },
       }) => {
         return (
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            key={`curr${id}`}
+            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:underline"
