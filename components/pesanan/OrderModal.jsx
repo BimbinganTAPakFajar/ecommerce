@@ -10,7 +10,13 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
     total,
     status,
     penerima,
-    address: { address_details, city, phone, subdistrict, province },
+    address: {
+      address_details,
+      city: { citylabel },
+      phone,
+      subdistrict: { subdistrictlabel },
+      province: { provincelabel },
+    },
     uuid,
     createdAt,
   } = orderData;
@@ -84,7 +90,7 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
           <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
             Alamat Lengkap
           </dt>
-          <dd class="text-lg font-semibold">{`${address_details}, ${subdistrict}, ${city}, ${province}`}</dd>
+          <dd class="text-lg font-semibold">{`${address_details}, ${subdistrictlabel}, ${citylabel}, ${provincelabel}`}</dd>
         </div>
         <div class="flex flex-col py-3">
           <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
