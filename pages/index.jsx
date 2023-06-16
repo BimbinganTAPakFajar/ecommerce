@@ -66,10 +66,11 @@ export default function Home({ products, landing, reviews, freshproducts }) {
         },
       } = obj.attributes;
       if (name === productName) {
+        console.log("yes");
         url = imageUrl;
+        console.log("IMAGEURL", imageUrl);
       }
     });
-    console.log("IMAGEURL", imageUrl);
     console.log("URL", url);
     return url;
   }
