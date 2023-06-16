@@ -53,7 +53,7 @@ export default function Home({ products, landing, reviews, freshproducts }) {
   } = landing;
   const router = useRouter();
   function getUrlByProductName(array, productName) {
-    let url = null;
+    let url = "";
     array.forEach((obj) => {
       const {
         name,
@@ -69,6 +69,8 @@ export default function Home({ products, landing, reviews, freshproducts }) {
         url = imageUrl;
       }
     });
+    console.log("IMAGEURL", imageUrl);
+    console.log("URL", url);
     return url;
   }
   const renderFreshProducts = () => {
