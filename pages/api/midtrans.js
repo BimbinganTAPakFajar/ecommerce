@@ -17,7 +17,6 @@ export default async function handler(req, res) {
       console.log("transactionToken:", snapToken);
     });
     if (req.method === "POST") {
-      console.log("yes");
       res.status(200).json({ snapToken });
     }
   } catch (err) {

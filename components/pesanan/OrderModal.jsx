@@ -12,10 +12,10 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
     penerima,
     address: {
       address_details,
-      city: { citylabel },
+      city: { label: citylabel },
       phone,
-      subdistrict: { subdistrictlabel },
-      province: { provincelabel },
+      subdistrict: { label: subdistrictlabel },
+      province: { label: provincelabel },
     },
     uuid,
     createdAt,

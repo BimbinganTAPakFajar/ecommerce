@@ -32,7 +32,6 @@ export async function getServerSideProps(context) {
   const items = itemres.data.data;
   const product = productres.data.data;
   const background = backgroundres.data.data[0];
-  console.log(background, "background");
   const rev = revres.data.data;
   return {
     props: { product, background, items, rev },
