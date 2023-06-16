@@ -94,7 +94,7 @@ export default function Home({ products, landing, reviews, freshproducts }) {
           return (
             <FreshProductCard
               id={product_detail_id}
-              key={name}
+              key={`fresh-${id}`}
               src={getUrlByProductName(products, name)}
               name={name}
               harvested={harvested}
@@ -124,7 +124,7 @@ export default function Home({ products, landing, reviews, freshproducts }) {
         }) => {
           return (
             <ProductCard
-              id={id}
+              id={`popular-${id}`}
               key={name}
               src={url}
               name={name}
@@ -166,7 +166,7 @@ export default function Home({ products, landing, reviews, freshproducts }) {
       }) => {
         return (
           <ReviewCard
-            key={id}
+            key={`review-${id}`}
             description={description}
             rating={rating}
             product_detail={product_detail}
