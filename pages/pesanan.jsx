@@ -67,7 +67,7 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
     const newUUID = `${uuid}-${moment().format("DDMMYYYYHHmmss")}`;
     const midtrans = {
       transaction_details: {
-        order_id: uuid,
+        order_id: newUUID,
         gross_amount: total,
       },
       customer_details: {
@@ -131,8 +131,6 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
     } catch (error) {
       setError(error.response.data.error);
       setIsAlertOpen(true);
-      // console.log(error);
-      // console.log(error.response.data.error, "ERROR");
     } finally {
       setIsLoading(false);
     }
@@ -167,6 +165,8 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
     } else if (status === "Pembayaran Gagal") {
       return "h-2.5 w-2.5 rounded-full bg-red-500 mr-2";
     } else if (status === "Pesanan Dikirim") {
+      return "h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2";
+    } else if (status === "Pesanan Diproses") {
       return "h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2";
     }
   };

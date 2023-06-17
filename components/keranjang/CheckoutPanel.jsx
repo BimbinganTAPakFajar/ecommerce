@@ -2,6 +2,7 @@ import { formatPrice } from "@/utils";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useLocalStorage } from "@/hooks";
 // import Select from "react-select";
 import dynamic from "next/dynamic";
 
@@ -20,6 +21,7 @@ export default function CheckoutPanel({
   strapiJWT,
   togglePaying,
   userInfo,
+  cartFromParent,
 }) {
   const {
     nama,
@@ -48,22 +50,21 @@ export default function CheckoutPanel({
   const [isCourierDisabled, setIsCourierDisabled] = useState(false);
   const [costOptions, setCostOptions] = useState([]);
   const [selectedCostOption, setSelectedCostOption] = useState({});
-  const [cart, setCart] = useState([]);
   const [addressDetails, setAddressDetails] = useState(address_details);
   const [phoneNumber, setPhoneNumber] = useState(phone);
   const [penerima, setPenerima] = useState(nama);
   const [selectedPackaging, setSelectedPackaging] = useState({});
   const [isToggleAlamat, setIsToggleAlamat] = useState(true);
   const router = useRouter();
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const cart = JSON.parse(localStorage.getItem("cart"));
-      setCart(cart);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const cart = JSON.parse(localStorage.getItem("cart"));
+  //     setCart(cart);
+  //   }
+  // }, []);
   const calculateWeight = () => {
     let weight = 0;
-    cart.forEach((item) => {
+    cartFromParent.forEach((item) => {
       weight += item.amount;
     });
     return weight;
@@ -228,37 +229,6 @@ export default function CheckoutPanel({
   const onSubdistrictChange = () => {
     setIsCourierDisabled(false);
   };
-  // useEffect(() => {
-  //   if (Object.keys(selectedProvince).length > 0) {
-  //     console.log("CLEAR IN PROV");
-  //     setSelectedCity({});
-  //     setSelectedSubdistrict({});
-  //     setIsSubdistrictDisabled(true);
-  //     setIsCourierDisabled(true);
-
-  //     getCities();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedProvince]);
-  // useEffect(() => {
-  //   if (Object.keys(selectedCity).length > 0) {
-  //     console.log("CLEAR IN CITY");
-
-  //     setSelectedSubdistrict({});
-  //     setIsSubdistrictDisabled(true);
-  //     setIsCourierDisabled(true);
-  //     getSubdistricts();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedCity]);
-
-  // useEffect(() => {
-  //   if (Object.keys(selectedSubdistrict).length > 0) {
-  //     console.log("CLEAR IN SUB");
-
-  //     setIsCourierDisabled(false);
-  //   }
-  // }, [selectedSubdistrict]);
 
   const renderCourierOptions = () => {
     if (isCourierDisabled) return;
@@ -342,7 +312,7 @@ export default function CheckoutPanel({
         phone: phoneNumber,
       };
       const data = {
-        cart: cart,
+        cart: cartFromParent,
         address: address,
         courier: selectedCourier,
         packaging: selectedPackaging,
@@ -422,7 +392,7 @@ export default function CheckoutPanel({
       });
     }
   };
-  if (!cart) return <></>;
+  if (cartFromParent.length === 0) return <></>;
   return (
     <form className="w-1/3 p-3 overflow-y-scroll">
       <h1 className="text-3xl font-semibold pb-5 sticky top-0">
@@ -541,36 +511,6 @@ export default function CheckoutPanel({
           </div>
         </div>
       )}
-      {/* {!isCourierDisabled && (
-        <div className="flex gap-x-3">
-          <div className="flex items-center">
-            <input
-              onChange={(e) => setSelectedCourier(e.target.value)}
-              id="default-radio-1"
-              type="radio"
-              value="jne"
-              name="default-radio-1"
-              className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
-            />
-            <label for="default-radio-1" className="ml-2 text-sm font-medium ">
-              JNE
-            </label>
-          </div>
-          <div className="flex items-center">
-            <input
-              onChange={(e) => setSelectedCourier(e.target.value)}
-              id="default-radio-2"
-              type="radio"
-              value="sicepat"
-              name="default-radio-2"
-              className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-            />
-            <label for="default-radio-2" className="ml-2 text-sm font-medium ">
-              SiCepat
-            </label>
-          </div>
-        </div>
-      )} */}
       {renderCourierOptions()}
       {isCostLoading ? (
         <div>Loading...</div>

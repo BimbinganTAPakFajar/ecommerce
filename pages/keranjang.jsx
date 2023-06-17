@@ -209,6 +209,7 @@ export default function Keranjang({
         strapiJWT={strapiJWT}
         togglePaying={togglePaying}
         userInfo={userInfo}
+        cartFromParent={cart}
       />
     </div>
   );
