@@ -403,25 +403,21 @@ export default function CheckoutPanel({
             }
           );
           router.replace(`/pesanan`);
-          console.log(result);
         },
         onPending: function (result) {
           /* You may add your own implementation here */
           alert("Mohon ditunggu! Anda akan diarahkan ke halaman pesanan");
           router.replace(`/pesanan`);
-
-          console.log(result);
         },
         onError: function (result) {
           /* You may add your own implementation here */
           alert("Pembayaran gagal!");
           router.replace(`/pesanan`);
-          console.log(result);
         },
         onClose: function () {
           /* You may add your own implementation here */
-          router.replace(`/pesanan`);
           alert("Silahkan melanjutkan pembayaran di halaman pesanan");
+          router.replace(`/pesanan`);
         },
       });
     }

@@ -64,6 +64,7 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
 
   const handlePayment = async (id, uuid, total, penerima, phoneNumber) => {
     toggleLoading();
+    const newUUID = `${uuid}-${moment().format("DDMMYYYYHHmmss")}`;
     const midtrans = {
       transaction_details: {
         order_id: uuid,
@@ -96,26 +97,22 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
           }
         );
         router.reload();
-        console.log(result);
       },
       onPending: function (result) {
         /* You may add your own implementation here */
         alert("Mohon ditunggu! Anda akan diarahkan ke halaman pesanan");
         router.replace(`/pesanan`);
-
-        console.log(result);
       },
       onError: function (result) {
         /* You may add your own implementation here */
         alert("Pembayaran gagal!");
         router.replace(`/pesanan`);
-        console.log(result);
       },
       onClose: function () {
         /* You may add your own implementation here */
         setIsLoading(false);
-        router.replace(`/pesanan`);
         alert("Silahkan melanjutkan pembayaran di halaman pesanan");
+        router.replace(`/pesanan`);
       },
     });
   };
