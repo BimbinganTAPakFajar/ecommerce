@@ -100,7 +100,8 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
       },
       onPending: function (result) {
         /* You may add your own implementation here */
-        alert("Mohon ditunggu! Anda akan diarahkan ke halaman pesanan");
+        setIsLoading(false);
+        alert("Silahkan melanjutkan pembayaran di halaman pesanan");
         router.replace(`/pesanan`);
       },
       onError: function (result) {
