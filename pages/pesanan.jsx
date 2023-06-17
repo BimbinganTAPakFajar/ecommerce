@@ -64,7 +64,7 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
 
   const handlePayment = async (id, uuid, total, penerima, phoneNumber) => {
     toggleLoading();
-    const newUUID = `${uuid}-${moment().format("DDMMYYYYHHmmss")}`;
+    const newUUID = `${uuid}-${moment().unix()}`;
     const midtrans = {
       transaction_details: {
         order_id: newUUID,
