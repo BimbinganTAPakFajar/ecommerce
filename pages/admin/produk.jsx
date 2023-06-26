@@ -222,7 +222,6 @@ export default function Produk({ products, strapiJWT, userRole }) {
           onClose={() => setIsAlertOpen(false)}
         />
         <LoadingBlocker isOpen={isLoading} />
-        const [isLoading, setIsLoading] = useState(false);
         {isUpdateProdukOpen && (
           <div
             id="defaultModal"
