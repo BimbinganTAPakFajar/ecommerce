@@ -216,7 +216,7 @@ export default function Pesanan({ orders, userID, strapiJWT }) {
           <tr key={id} className="bg-white border-b">
             <th
               scope="row"
-              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap  "
+              className="flex items-center px-6 py-4 text-text whitespace-nowrap  "
             >
               <div className="pl-3">
                 <div

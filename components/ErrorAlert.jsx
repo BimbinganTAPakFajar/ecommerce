@@ -3,7 +3,7 @@ export default function ErrorAlert({ message, isOpen, onClose }) {
     return (
       <div
         id="alert-2"
-        className="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+        className="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50    "
         role="alert"
       >
         <svg
@@ -23,7 +23,7 @@ export default function ErrorAlert({ message, isOpen, onClose }) {
         <div className="ml-3 text-sm font-medium">Error! {message}</div>
         <button
           type="button"
-          className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+          className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8      "
           data-dismiss-target="#alert-2"
           aria-label="Close"
           onClick={onClose}

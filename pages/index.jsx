@@ -127,8 +127,8 @@ export default function Home({ products, landing, reviews, freshproducts }) {
         }) => {
           return (
             <ProductCard
-              id={`popular-${id}`}
-              key={name}
+              id={id}
+              key={`${id}${name}`}
               src={url}
               name={name}
               amount={sold}

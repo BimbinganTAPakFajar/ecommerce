@@ -21,11 +21,11 @@ export default function ResiModal({ isOpen, onClose, resiData }) {
       ({ city_name, manifest_date, manifest_description, manifest_time }) => {
         return (
           <li key={`${city_name}${manifest_date}`} className="mb-5 ml-4">
-            <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-            <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+            <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white    "></div>
+            <time className="mb-1 text-sm font-normal leading-none text-gray-400  ">
               {manifest_date + " " + manifest_time}
             </time>
-            <h3 className="text-md font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-md font-semibold text-text  ">
               {`[${city_name}]  ${manifest_description}`}
             </h3>
           </li>
@@ -36,37 +36,27 @@ export default function ResiModal({ isOpen, onClose, resiData }) {
 
   const generateDetails = () => {
     return (
-      <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+      <dl class="max-w-md text-text divide-y divide-gray-200    ">
         <div class="flex flex-col pb-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Jasa Pengiriman
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Jasa Pengiriman</dt>
           <dd class="text-lg font-semibold">{courier_name}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Nomor Resi
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Nomor Resi</dt>
           <dd class="text-lg font-semibold">{waybill_number}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Status
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Status</dt>
           <dd class="text-lg font-semibold">{status}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Tanggal Penerimaan
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Tanggal Penerimaan</dt>
           <dd class="text-lg font-semibold">{`${pod_date || "-"} ${
             pod_time || "-"
           }`}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Penerima
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Penerima</dt>
           <dd class="text-lg font-semibold">{`${pod_receiver || "-"}`}</dd>
         </div>
       </dl>
@@ -79,14 +69,14 @@ export default function ResiModal({ isOpen, onClose, resiData }) {
       className={`fixed inset-0 z-50 w-full p-4 overflow-x-hidden overflow-y-scroll md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center`}
     >
       <div className="relative w-full max-w-7xl max-h-full">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+        <div className="relative bg-white rounded-lg shadow  ">
+          <div className="flex items-center justify-between p-5 border-b rounded-t  ">
+            <h3 className="text-xl font-medium text-text  ">
               Status Pengiriman
             </h3>
             <button
               type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-text rounded-lg text-sm p-1.5 ml-auto inline-flex items-center    "
               data-modal-hide="extralarge-modal"
               onClick={onClose}
             >
@@ -107,7 +97,7 @@ export default function ResiModal({ isOpen, onClose, resiData }) {
             </button>
           </div>
           <div className="p-6 flex gap-x-4">
-            <ol className="relative border-l border-gray-200 dark:border-gray-700 w-1/2">
+            <ol className="relative border-l border-gray-200 w-1/2">
               {generateListItems()}
             </ol>
             {generateDetails()}

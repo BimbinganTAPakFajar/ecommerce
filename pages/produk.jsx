@@ -76,7 +76,7 @@ const Product = ({ products }) => {
       <Header color={"black"}>Produk Kami</Header>
       <label
         htmlFor="default-search"
-        className="mb-2 text-sm font-medium text-gray-900 sr-only "
+        className="mb-2 text-sm font-medium text-text sr-only "
       >
         Search
       </label>
@@ -106,7 +106,7 @@ const Product = ({ products }) => {
           }
           type="search"
           id="default-search"
-          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-big focus:border-big"
+          className="block w-full p-4 pl-10 text-sm text-text border border-gray-300 rounded-lg bg-gray-50 focus:ring-big focus:border-big"
           placeholder="Temukan produk kami"
         />
       </div>

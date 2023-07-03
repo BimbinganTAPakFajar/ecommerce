@@ -29,6 +29,10 @@ export async function getServerSideProps(context) {
       `${process.env.NEXT_PUBLIC_STRAPI_URL}reviews?populate=*&filters\[product_detail\][id][$eq]=${id}`
     ),
   ]);
+  console.log(productres.data, "PRODUCT");
+  console.log(itemres.data, "ITEM");
+  console.log(backgroundres.data, "BACKGROUND");
+  console.log(revres.data, "REV");
   const items = itemres.data.data;
   const product = productres.data.data;
   const background = backgroundres.data.data[0];
@@ -88,11 +92,14 @@ export default function Product({ product, background, items, rev }) {
   } = product;
 
   useEffect(() => {
-    const {
-      id,
-      attributes: { stock, harvested },
-    } = items[0];
-    handleSelect(id, name, url, stock, harvested);
+    if (items.length !== 0) {
+      const {
+        id,
+        attributes: { stock, harvested },
+      } = items[0];
+      handleSelect(id, name, url, stock, harvested);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const avgReview = averageReview(reviews.data);
@@ -221,26 +228,31 @@ export default function Product({ product, background, items, rev }) {
               <StarRating number={avgReview} />
             </div>
             <div className=" border-l-[2px] border-r-[2px] px-5">
-              {reviewAmount} Reviews
+              {reviewAmount} Ulasan
             </div>
-            <div>{sold} Sold</div>
+            <div>{sold} Terjual</div>
           </div>
-          <h2 className="text-md font-semibold pb-2">Pilih umur produk</h2>
+          <h2 className="text-md font-semibold pb-2">
+            {items.length !== 0
+              ? `Pilih produk`
+              : `Maaf, produk ini sedang kosong`}
+          </h2>
           <div className="flex flex-wrap h-fit gap-3 pb-2">
             {renderProducts()}
           </div>
-
-          <AddToCart
-            togglePopUp={togglePopUp}
-            src={selectedItem.src}
-            id={selectedItem.id}
-            finalPrice={selectedItem.finalPrice}
-            price={price}
-            stock={selectedItem.stock}
-            harvested={selectedItem.harvested}
-            name={selectedItem.name}
-            isSelected={isSelected}
-          />
+          {items.length !== 0 && (
+            <AddToCart
+              togglePopUp={togglePopUp}
+              src={selectedItem.src}
+              id={selectedItem.id}
+              finalPrice={selectedItem.finalPrice}
+              price={price}
+              stock={selectedItem.stock}
+              harvested={selectedItem.harvested}
+              name={selectedItem.name}
+              isSelected={isSelected}
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-col w-full relative">

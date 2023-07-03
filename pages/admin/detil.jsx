@@ -188,13 +188,10 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
         },
       }) => {
         return (
-          <tr
-            key={`detail${id}`}
-            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-          >
+          <tr key={`detail${id}`} className="bg-white border-b    ">
             <th
               scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:underline"
+              className="px-6 py-4 font-medium text-text whitespace-nowrap   cursor-pointer hover:underline"
             >
               {name}
             </th>
@@ -204,7 +201,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
                 onClick={() =>
                   handleOpenUpdate(id, images, video_url, descriptions)
                 }
-                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                className="font-medium text-blue-600   hover:underline"
               >
                 Update Detil Produk
               </button>
@@ -239,7 +236,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
           <div>
             <div className="">
               <input
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                className="block w-full text-sm text-text border border-gray-300 rounded-lg cursor-pointer bg-gray-50   focus:outline-none      "
                 id="file_input"
                 type="file"
                 onChange={(e) => handleImageChange(e, id, visibleImageUrls[i])}
@@ -248,13 +245,13 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
             <div>
               <label
                 for="judul"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-text  "
               ></label>
               <input
                 type="text"
                 name="judul"
                 id="judul"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5            "
                 placeholder={descriptions[i].subheader}
                 required=""
                 onChange={(e) => handleDescriptionSubheaderChange(e, i)}
@@ -263,13 +260,13 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
             <div>
               <label
                 for="desc"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-text  "
               ></label>
               <input
                 type="text"
                 name="desc"
                 id="desc"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5            "
                 placeholder={descriptions[i].description}
                 required=""
                 onChange={(e) => handleDescriptionChange(e, i)}
@@ -283,7 +280,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
 
   const handleUpdateProduk = async (e) => {
     e.preventDefault();
-
+    const data = newData();
     try {
       setIsLoading(true);
       const res = await axios(
@@ -291,7 +288,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
         {
           method: "PUT",
           data: {
-            data: newData(),
+            data: data,
           },
           headers: {
             Authorization: `Bearer ${strapiJWT}`,
@@ -316,14 +313,14 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
         className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-modal md:h-full"
       >
         <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
-          <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-            <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <div className="relative p-4 bg-white rounded-lg shadow   sm:p-5">
+            <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5  ">
+              <h3 className="text-lg font-semibold text-text  ">
                 Update Detil Produk
               </h3>
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-text rounded-lg text-sm p-1.5 ml-auto inline-flex items-center    "
                 data-modal-toggle="defaultModal"
                 onClick={() => setIsUpdateProdukOpen(false)}
               >
@@ -347,13 +344,13 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
               <div className="flex flex-col gap-y-2">
                 <div className="">
                   <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-text  "
                     for="file_input"
                   >
                     Upload Video
                   </label>
                   <input
-                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    className="block w-full text-sm text-text border border-gray-300 rounded-lg cursor-pointer bg-gray-50   focus:outline-none      "
                     id="file_input"
                     type="file"
                     onChange={(e) => setVideoInput(e.target.files)}
@@ -363,7 +360,7 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
               </div>
               <button
                 type="submit"
-                className="text-white inline-flex items-center mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white inline-flex items-center mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center      "
                 onClick={(e) => handleUpdateProduk(e)}
               >
                 <svg
@@ -401,8 +398,8 @@ export default function Detil({ productbackgrounds, strapiJWT, userRole }) {
       <LoadingBlocker isOpen={isLoading} />
 
       {isUpdateProdukOpen && generateModal()}
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500  ">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50    ">
           <tr>
             <th scope="col" className="px-6 py-3">
               Nama Produk

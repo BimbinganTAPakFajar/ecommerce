@@ -85,6 +85,10 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
     setCurrentOrders(orders);
   };
   const handleResiUpdateButton = async (id) => {
+    if (resiInput === "") {
+      alert("Resi tidak boleh kosong");
+      return;
+    }
     setIsLoading(true);
     try {
       const res = await axios(
@@ -137,13 +141,10 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
         },
       }) => {
         return (
-          <tr
-            key={id}
-            className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-          >
+          <tr key={id} className="bg-white border-b    ">
             <th
               scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:underline"
+              className="px-6 py-4 font-medium text-text whitespace-nowrap   cursor-pointer hover:underline"
               onClick={() =>
                 handleOpenOrderDetails({
                   cart,
@@ -165,7 +166,7 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
             <td className="px-6 py-4">{status}</td>
             <td className="px-6 py-4">
               <button
-                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                className="font-medium text-blue-600   hover:underline"
                 onClick={() => handleClickUpdateResi(uuid, id, resi)}
               >
                 Update Resi
@@ -202,10 +203,10 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
           className="fixed inset-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center"
         >
           <div className="relative w-full max-w-md max-h-full">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative bg-white rounded-lg shadow  ">
               <button
                 type="button"
-                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-text rounded-lg text-sm p-1.5 ml-auto inline-flex items-center    "
                 data-modal-hide="authentication-modal"
                 onClick={() => setIsUpdateResiOpen(false)}
               >
@@ -225,14 +226,14 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
                 <span className="sr-only">Close modal</span>
               </button>
               <div className="px-6 py-6 lg:px-8">
-                <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                <h3 className="mb-4 text-xl font-medium text-text  ">
                   Update Nomor Resi Pesanan {selectedOrder.uuid}
                 </h3>
                 <form className="space-y-6" action="#">
                   <div>
                     <label
                       for="resi"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-text  "
                     >
                       Resi
                     </label>
@@ -240,7 +241,7 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
                       type="text"
                       name="resi"
                       id="resi"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      className="bg-gray-50 border border-gray-300 text-text text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5        "
                       placeholder="RESI"
                       defaultValue={resiInput}
                       onChange={(e) => setResiInput(e.target.value)}
@@ -250,7 +251,7 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
 
                   <button
                     type="submit"
-                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center      "
                     onClick={(e) => {
                       e.preventDefault();
                       handleResiUpdateButton(selectedOrder.id);
@@ -264,8 +265,8 @@ export default function Pesanan({ orders, strapiJWT, userRole }) {
           </div>
         </div>
       )}
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500  ">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50    ">
           <tr>
             <th scope="col" className="px-6 py-3">
               ID Pesanan

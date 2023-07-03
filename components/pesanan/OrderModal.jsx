@@ -45,38 +45,28 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
 
   const generateDetails = () => {
     return (
-      <dl class="max-w-md w-1/2 text-text divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+      <dl class="max-w-md w-1/2 text-text divide-y divide-gray-200    ">
         <div class="flex flex-col pb-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            ID Pesanan
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">ID Pesanan</dt>
           <dd class="text-lg font-semibold">{uuid}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Tanggal Pemesanan
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Tanggal Pemesanan</dt>
           <dd class="text-lg font-semibold">
             {moment(createdAt).format("DD MMMM YYYY")}
           </dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Total
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Total</dt>
           <dd class="text-lg font-semibold">{formatPrice(total)}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Status
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Status</dt>
           <dd class="text-lg font-semibold">{`${status}`}</dd>
         </div>
 
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Penerima
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Penerima</dt>
           <dd class="text-lg font-semibold">{`${penerima}`}</dd>
         </div>
       </dl>
@@ -85,17 +75,13 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
 
   const generateAddress = () => {
     return (
-      <dl class="max-w-md w-1/2 text-text divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+      <dl class="max-w-md w-1/2 text-text divide-y divide-gray-200    ">
         <div class="flex flex-col pb-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Alamat Lengkap
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Alamat Lengkap</dt>
           <dd class="text-lg font-semibold">{`${address_details}, ${subdistrictlabel}, ${citylabel}, ${provincelabel}`}</dd>
         </div>
         <div class="flex flex-col py-3">
-          <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-            Nomor HP
-          </dt>
+          <dt class="mb-1 text-gray-500 md:text-lg  ">Nomor HP</dt>
           <dd class="text-lg font-semibold">{phone}</dd>
         </div>
       </dl>
@@ -108,14 +94,14 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
       className={`fixed inset-0 z-50 w-full p-4 overflow-x-hidden overflow-y-scroll md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center`}
     >
       <div className="relative w-full max-w-7xl max-h-full">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
-            <h3 className="text-xl font-medium text-text dark:text-white">
+        <div className="relative bg-white rounded-lg shadow  ">
+          <div className="flex items-center justify-between p-5 border-b rounded-t  ">
+            <h3 className="text-xl font-medium text-text  ">
               Detail Pemesanan
             </h3>
             <button
               type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-text rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-text rounded-lg text-sm p-1.5 ml-auto inline-flex items-center    "
               data-modal-hide="extralarge-modal"
               onClick={onClose}
             >
@@ -137,9 +123,7 @@ export default function OrderModal({ orderData, isOpen, onClose }) {
           </div>
           <div className="p-6 flex gap-x-4">
             <div className="w-1/3 flex flex-col">
-              <dt class="mb-2 text-gray-500 md:text-lg dark:text-gray-400">
-                Daftar Barang
-              </dt>
+              <dt class="mb-2 text-gray-500 md:text-lg  ">Daftar Barang</dt>
               {generateCartItems()}
             </div>
             {generateAddress()}
