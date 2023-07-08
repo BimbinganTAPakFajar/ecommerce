@@ -31,6 +31,7 @@ export default function CheckoutPanel({
     label: province.label,
     value: province.value,
   });
+
   const [selectedCity, setSelectedCity] = useState({
     label: city.label,
     value: city.value,
@@ -72,12 +73,35 @@ export default function CheckoutPanel({
 
   const toggleAlamat = () => {
     setCostOptions([]);
-    setIsCourierDisabled(!isCourierDisabled);
     setIsToggleAlamat(!isToggleAlamat);
   };
+
   useEffect(() => {
-    console.log(isCourierDisabled);
-  }, [isCourierDisabled]);
+    if (isToggleAlamat === false) {
+      setSelectedProvince({});
+      setSelectedCity({});
+      setSelectedSubdistrict({});
+      setIsCourierDisabled(true);
+      setIsCityDisabled(true);
+      setIsSubdistrictDisabled(true);
+    } else {
+      setIsCourierDisabled(false);
+
+      setSelectedProvince({
+        label: province.label,
+        value: province.value,
+      });
+      setSelectedCity({
+        label: city.label,
+        value: city.value,
+      });
+      setSelectedSubdistrict({
+        label: subdistrict.label,
+        value: subdistrict.value,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isToggleAlamat]);
   const generateCostOptions = () => {
     if (isCourierDisabled) return;
     return costOptions.map(
@@ -165,8 +189,6 @@ export default function CheckoutPanel({
     setCityOptions(options);
     setCityLoading(false);
     setIsCityDisabled(false);
-
-    setIsCityDisabled(false);
   };
 
   const getSubdistricts = async () => {
@@ -192,6 +214,7 @@ export default function CheckoutPanel({
   };
 
   const getCost = async () => {
+    setSelectedCostOption({});
     setIsCostLoading(true);
     const config = {
       headers: {
@@ -216,15 +239,24 @@ export default function CheckoutPanel({
     setSelectedSubdistrict({});
     setIsSubdistrictDisabled(true);
     setIsCourierDisabled(true);
-
-    getCities();
   };
+  useEffect(() => {
+    if (selectedProvince.value) {
+      getCities();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProvince]);
   const onCityChange = () => {
     setSelectedSubdistrict({});
     setIsSubdistrictDisabled(true);
     setIsCourierDisabled(true);
-    getSubdistricts();
   };
+  useEffect(() => {
+    if (selectedCity.value) {
+      getSubdistricts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCity]);
 
   const onSubdistrictChange = () => {
     setIsCourierDisabled(false);
@@ -250,10 +282,10 @@ export default function CheckoutPanel({
         <div className="flex items-center">
           <input
             onChange={(e) => setSelectedCourier(e.target.value)}
-            id="default-radio-2"
+            id="default-radio-1"
             type="radio"
             value="sicepat"
-            name="default-radio-2"
+            name="default-radio-1"
             className="w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500 "
           />
           <label for="default-radio-2" className="ml-2 text-sm font-medium ">
@@ -461,6 +493,7 @@ export default function CheckoutPanel({
                 onProvinceChange();
                 setSelectedProvince(choice);
               }}
+              value={selectedProvince || null}
               placeholder="Pilih provinsi..."
               className=""
               options={options}
